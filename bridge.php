@@ -21,7 +21,9 @@
     $insert = mysqli_query($connect, "INSERT INTO `users`(`name`, `countryID`) VALUES ('$name','$cid')");
     ?> 
     <script type="text/javascript">
-       document.cookie = "UserId=<?echo $newid;?>";
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+       document.cookie = "UserId=<?echo $newid;?>", expires ;
        
     </script>
 <?     
