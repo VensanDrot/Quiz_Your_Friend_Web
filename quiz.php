@@ -1,4 +1,5 @@
-<? require_once("header.php"); 
+<?require_once("header.php");?>
+<?
 
 $n= $_GET['Qid'];
 $qn= $_GET['Qn'];
@@ -19,7 +20,6 @@ $stat =mysqli_fetch_assoc($q);
 $stat = $stat['status'];
 
 $q = mysqli_query($connect,"SELECT `question` FROM `$n` WHERE `qid`=$qn AND `id`=$min");
-
 $que= mysqli_fetch_assoc($q);
 $que = $que['question'];
 
@@ -47,10 +47,15 @@ function saveChange(clicked_id) {
 
     if(<?echo $qn;?> < <?echo $maxq;?>){ 
     window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>';
-    } else {
-    //window.location.href='index.php';
-    localStorage.setItem("<?echo $n;?>", "<?echo $_COOKIE['UserId'];?>");
+    } 
+    
     }
+
+    console.log(map.size);
+
+    if(map.size == <?=$maxq+2?>){
+       // window.location.href='finish.php';
+        localStorage.setItem("<?echo $n;?>", "<?echo $_COOKIE['UserId'];?>");
     }
   
 
@@ -112,7 +117,7 @@ function saveChange(clicked_id) {
                                 $r = mysqli_fetch_assoc($q);
                              ?>
         <li  class="ng-scope" id="qa<?echo $i;?>"><a id="<?echo $i;?>" class="ng-binding"  onclick="saveChange(this.id)">
-        <div class="img_ser"><img alt="" src="public/images/Whisky1.jpg"></div>
+        <div class="img_ser"><img alt="" src="<?echo $r["img"];?>"></div>
         <figcaption>Aquarius</figcaption></a>
         </li><!-- end ngRepeat: option in currentQuestion.options -->
 

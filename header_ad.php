@@ -49,6 +49,7 @@ require_once("public/Functions/dbcon.php");?>
                 <li><a href="about-us">About Us</a></li>
                 <li><a href="social">Social</a></li>
                 <li><a href="contact-us">Contact Us</a></li>
+                <li><a href="public/Functions/logout.php">logout</a></li>
             </ul>
         </div>
     </nav>

@@ -25,7 +25,7 @@
     $insert = mysqli_query($connect, "INSERT INTO `users`(`name`, `countryID`) VALUES ('$name','$cid')");
     ?> 
     <script type="text/javascript">
-      document.cookie = "UserId=<?echo $newid;?>";
+       document.cookie = "UserId=<?echo $newid;?>";
        localStorage.setItem('UserId', <?echo $newid;?>);
     </script>
 <?     
