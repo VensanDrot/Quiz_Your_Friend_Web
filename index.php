@@ -40,5 +40,10 @@
 
         </div>
     </div>
+
+    <script>
+        var f=0;
+        document.cookie = "f=0";
+    </script>
  
 <? require_once("footer.php"); ?>

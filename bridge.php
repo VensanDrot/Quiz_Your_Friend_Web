@@ -1,13 +1,17 @@
 <?  
     require_once('header.php'); 
-
     $Qid = $_GET['Qid'];
-    if (isset($_COOKIE['UserId'])) {
-       echo"<script>
-       window.location.href='quiz.php?Qid=$Qid&Qn=1';
-        </script>";
-   }
+?>
+ <script>
+     if (localStorage.getItem('UserId') !== null) {
+        window.location.href='quiz.php?Qid=<?echo $Qid;?>&Qn=1';
+        document.cookie = "UserId="+localStorage.getItem('UserId');
+     }
+ </script>
+   
 
+
+   <?
    if( isset($_POST["startQuiz"]) && !isset($_COOKIE['UserId']) ){
     $q = mysqli_query($connect,"SELECT MAX(id) FROM `users`");
     $newid=$row["MAX(id)"]+1;
@@ -21,10 +25,8 @@
     $insert = mysqli_query($connect, "INSERT INTO `users`(`name`, `countryID`) VALUES ('$name','$cid')");
     ?> 
     <script type="text/javascript">
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        let expires = "expires="+ d.toUTCString();
-       document.cookie = "UserId=<?echo $newid;?>", expires ;
-       
+      document.cookie = "UserId=<?echo $newid;?>";
+       localStorage.setItem('UserId', <?echo $newid;?>);
     </script>
 <?     
     
