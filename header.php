@@ -15,6 +15,7 @@ require_once("public/Functions/dbcon.php");?>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100;0,8..144,200;0,8..144,300;0,8..144,400;0,8..144,500;1,8..144,100;1,8..144,200;1,8..144,300;1,8..144,400;1,8..144,500&display=swap" rel="stylesheet">
     <script type="text/javascript" src="public/js/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/bd35cfa493.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="home">

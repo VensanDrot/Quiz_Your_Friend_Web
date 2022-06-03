@@ -110,3 +110,24 @@
     font-size: 14px;
     color: darkgray;
 }
+
+.err {
+    align-items: baseline;
+    text-align: center;
+}
+
+.erase {
+    padding: 0;
+    margin: 0 0 10px;
+    font-size: 17px;
+    text-align: center;
+    align-items: baseline;
+    border: 0 transparent;
+    background: transparent;
+}
+
+.checkbox_cont {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 5px;
+}

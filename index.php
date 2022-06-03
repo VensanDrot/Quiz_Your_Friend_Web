@@ -1,4 +1,6 @@
-<? require_once("header.php");?>
+<? require_once("header.php");
+    
+?>
 
 
     <div class="main_sec middle_conatainer">

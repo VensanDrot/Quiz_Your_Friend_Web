@@ -26,8 +26,9 @@ require("header.php");
 		$row = mysqli_fetch_assoc($q);
 		if(isset($row["login"])){           
 			$_SESSION["AdminLogin"] = $row["login"];
+            $_SESSION['Status'] = $row['status'];
             $_SESSION["last_time"] = time();
-            echo "<script>window.location.href='adminpanel.php';  
+            echo "<script>window.location.href='adminpanel.php?Part=Admin';  
             </script>";
            
             // header("location: adminpanel.php");

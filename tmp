@@ -1,0 +1,26 @@
+ $table = mysqli_query($connect,"CREATE TABLE Q2 (
+    id INT(15) AUTO_INCREMENT PRIMARY KEY,
+    qid INT(15),
+    question VARCHAR(50),
+    answer VARCHAR(50),
+    status TINYINT(1) NULL,
+    img VARCHAR(50)
+    )");
+
+      
+            if (isset($last_img) && isset($last_name) && isset($last_nques)){
+                $insert = mysqli_query($connect,"INSERT INTO `Quizes`(`name`, `img`, `questions`, `status`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5])")
+            }
+
+
+            $q =  mysqli_query($connect,"SELECT `id` FROM `Quizes` WHERE `name`=`$last_name` AND `img`=`$last_img` AND `questions` = `$last_nques` AND `status` = `$checkbox`)");
+                $que = mysqli_fetch_assoc($q);
+                $tname = "Q"+$que['id'];
+                $table = mysqli_query($connect,"CREATE TABLE $tname (
+                    id INT(15) AUTO_INCREMENT PRIMARY KEY,
+                    qid INT(15),
+                    question VARCHAR(50),
+                    answer VARCHAR(50),
+                    status TINYINT(1) NULL,
+                    img VARCHAR(50)
+                    )");
