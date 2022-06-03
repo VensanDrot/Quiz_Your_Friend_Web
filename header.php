@@ -47,9 +47,9 @@ require_once("public/Functions/dbcon.php");?>
                         </select>
                 </li> -->
                 <!-- links should be changed -->
-                <li><a href="about-us">About Us</a></li>
-                <li><a href="social">Social</a></li>
-                <li><a href="contact-us">Contact Us</a></li>
+                <li><a href="about_us.php">About Us</a></li>
+                <li><a href="social.php">Social</a></li>
+                <li><a href="contact_us.php">Contact Us</a></li>
             </ul>
         </div>
     </nav>

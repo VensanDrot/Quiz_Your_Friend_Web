@@ -18,9 +18,9 @@
 
         <div class="footer_menu">
             <ul>
-                <li><a href="privacy-policy">Privacy Policy </a></li>
-                <li><a href="terms-of-use">Terms Of Use </a></li>
-                <li><a href="faq">FAQs </a></li>
+                <li><a href="privacy-policy.php">Privacy Policy </a></li>
+                <li><a href="terms-of-use.php">Terms Of Use </a></li>
+                <li><a href="faq.php">FAQs </a></li>
             </ul>
 
 
