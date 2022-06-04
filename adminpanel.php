@@ -83,12 +83,7 @@
             // Return compressed image 
             return $destination; 
         } 
-
-
-    
-             
-
-        // If upload form is submitted 
+ 
        
         if(isset($_POST["New_Quiz"])){ 
             $status = 'error'; 
@@ -163,19 +158,14 @@
                     img VARCHAR(50)
                     )");
                     
-                
+                }  
             }
-            
-        
-        } 
-     
+           
+         
+    //  End New Quiz Creation start   
+    ?>     
 
-    //  End New Quiz Creation start    
-
-  
-?>
-
- <!-- html part -->
+    <!-- html part -->
 
     <div class="container">
      <!-- Start of the Admin part-->
@@ -258,12 +248,71 @@
             </div>
              <input class="btn btn-lg btn-success btn-block" type="submit" name="New_Quiz" value="Create new quiz">
             </form>
+
+            <div class="answer_questions" >
+
+            <ul class="questionNoList err">
+            <li><p>All quizes</p></li>
+
+              <? 
+              $q = $q = mysqli_query($connect,"SELECT MAX(id) FROM `quizes`");
+              $max_quiz_id = mysqli_fetch_assoc($q);
+              $max_quiz_id = $max_quiz_id['MAX(id)'];
+              for ($i=1; $i <=$max_quiz_id ; $i++) { 
+               $q = mysqli_query($connect,"SELECT * FROM `quizes` WHERE `id` = $i");
+               $r = mysqli_fetch_assoc($q);
+
+
+
+              if(!empty($r['QName'])) { 
+
+            ?>
+           <li style="display: flex; justify-content:space-between;">
+           <button class="erase" id='<?=$r['id'];?>' onclick="location.href='adminpanel.php?Part=QuizEdit&Qid=<?=$r['id']?>'" >
+           <i style="font-size:15px;" class="fa-solid fa-pen-to-square"></i>
+            </button>
+           <p><?=$r['QName'];?></p>
+           <p><?=$r['status'];?></p>
+          </li>
+          <?
+               }
+              }
+              ?>
+
+              <!-- sample of li
+                 <li><button class="answers">Version 1</button></li>
+                -->
+            </ul>
+          
+        </div>
+
+
             <?}?>
 
-        </div>
+        
      <!-- End of the Quiz part-->         
 
+     <!-- Start of the Quiz part-->               
+     <?
+        if ($Part == 'QuizEdit') {
+        $Quiz_id = $_GET['Qid'];
+        
+        ?>
+        
+        <div class="">
+ 	        <h1 class="ng-binding">Addition of the quiz</h1>
+            
 
+        </div>
+
+            <?}?>
+
+        
+     <!-- End of the Quiz part-->
+     
+             
+
+    </div>   
 
  <!-- script parts -->
 
@@ -286,6 +335,7 @@
 
     </script>
 
+    
 
 
 

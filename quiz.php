@@ -95,7 +95,7 @@ function saveChange(clicked_id) {
                  $q = mysqli_query($connect,"SELECT * FROM `$n` WHERE `qid`=$qn AND `id` = $i");
                 $r = mysqli_fetch_assoc($q);
                 ?>
-             <li  id="qa<?echo $i;?>" ><button class="answers"  id="<?echo $i;?>" onclick="saveChange(this.id)"> <? echo $r['answer']; ?> </button></li>
+             <li  id="qa<?echo $i;?>" style="<?if(empty($r['answer'])){echo "display:none;";}?>"><button class="answers"  id="<?echo $i;?>" onclick="saveChange(this.id)"> <? echo $r['answer']; ?> </button></li>
               <?  }
               }
                 ?>
