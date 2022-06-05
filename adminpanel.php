@@ -35,7 +35,7 @@
         $error_login = "Enter the login";
         }
 
-        if(!empty($pass) && strlen($pass)>8){
+        if(!empty($pass) && strlen($pass)>=8){
         $last_password = md5($pass);
         }else{
         $error_password = "Password should be at least 8 characters  ";
@@ -162,8 +162,96 @@
     //  End New Quiz Creation start   
 
     //  Start Quiz Question Edition
+            
+        $uploadPath = "public/images/"; 
+        $status = $statusMsg = '';    
+
         if (isset($_POST['update'])){
             $answer = trim(htmlspecialchars(strip_tags($_POST["answer"])));                   
+            $question_id = trim(htmlspecialchars(strip_tags($_POST["id"]))); 
+                
+            if(!empty($answer)){
+              $last_answer = $answer;
+              }else{
+              $error_answer = "Enter the correct answer";
+              }
+            
+            if(!empty($_FILES["image"]["name"])) { 
+                // File info 
+                
+                $fileName = basename($_FILES["image"]["name"]); 
+                $imageUploadPath = $uploadPath . $fileName; 
+                $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION); 
+
+                // Allow certain file formats 
+                $allowTypes = array('jpg','png','jpeg'); 
+                if(in_array($fileType, $allowTypes)){ 
+                    // Image temp source 
+                    $imageTemp = $_FILES["image"]["tmp_name"]; 
+
+                    // Compress size and upload image 
+                    $compressedImage = compressImage($imageTemp, $imageUploadPath, 75); 
+
+                    if($compressedImage){ 
+                        $status = 'success'; 
+                        $last_img = $imageUploadPath;
+                    }else{ 
+                        $statusMsg = "Image compress failed!"; 
+                    } 
+                }else{ 
+                    $statusMsg = 'Sorry, only JPG, JPEG, PNG, & GIF files are allowed to upload.'; 
+                } 
+                }else{ 
+                $statusMsg = 'Please select an image file to upload.'; 
+            }  
+              
+
+           
+        
+
+
+          if(!empty($last_answer) && !empty($question_id) && $sttt == 0) {
+              $QID=$_GET['Qid'];
+              $Q=$_GET['Q'];
+              $insert = mysqli_query($connect, "UPDATE `Q$QID` SET `answer`='$last_answer' WHERE `id` = $question_id");
+              $temp=$_GET['Question'];
+          }
+          if(!empty($last_answer) && !empty($question_id) && !empty($last_img)) {
+            $QID=$_GET['Qid'];
+            $Q=$_GET['Q'];
+            $insert = mysqli_query($connect, "UPDATE `Q$QID` SET `answer`='$last_answer',`img`='$last_img' WHERE `id` = $question_id");
+             $temp=$_GET['Question'];
+         } 
+         
+        }
+
+        if (isset($_POST['q_img'])){
+            $question = trim(htmlspecialchars(strip_tags($_POST["QQuestion"])));                   
+            $question_id = trim(htmlspecialchars(strip_tags($_POST["id"]))); 
+            $checkbox = trim(htmlspecialchars(strip_tags($_POST["active"]))); 
+            echo "<script>console.log('$sttt');</script>"; 
+            if(!empty($question)){
+                $last_question = $question;
+                }else{
+                $error_question = "Enter the correct question";
+                }
+            if (empty($checkbox)) {
+                    $checkbox = 0;
+                }    
+               
+            if(!empty($last_question) && !empty($question_id) && isset($checkbox)) {
+                    $QID=$_GET['Qid'];
+                    $Q=$_GET['Q'];
+                    $insert = mysqli_query($connect, "UPDATE `Q$QID` SET `status`='$checkbox' WHERE `qid` = $Q");
+                    $insert = mysqli_query($connect, "UPDATE `Q$QID` SET `question`='$last_question',`status`='$checkbox' WHERE `id` ='$question_id'");
+                    $temp=$_GET['Question'];
+                }
+
+        }
+
+
+        if (isset($_POST['add'])){
+            $answern = trim(htmlspecialchars(strip_tags($_POST["answer"])));                   
             $question_id = trim(htmlspecialchars(strip_tags($_POST["id"]))); 
                 if(!empty($_FILES["image"]["name"])) { 
                     // File info 
@@ -195,30 +283,30 @@
             
              
 
-            if(!empty($answer)){
-              $last_answer = $answer;
+            if(!empty($answern)){
+              $last_answern = $answern;
               }else{
-              $error_answer = "Enter the correct answer";
+              $error_answern = "Enter the correct answer";
               }
           
-              
-          if(!empty($last_answer) && !empty($question_id) && $sttt == 0) {
+             
+          if(!empty($last_answern) && !empty($question_id) && $sttt == 0) {
               $QID=$_GET['Qid'];
               $Q=$_GET['Q'];
-              $insert = mysqli_query($connect, "UPDATE `Q$QID` SET `answer`='$last_answer' WHERE `id` = $question_id");
+              $insert = mysqli_query($connect, "INSERT INTO `Q$QID`(`qid`, `answer`, `status`, `img`) VALUES ('$Q','$answern','$sttt','$last_img')");
               $temp=$_GET['Question'];
           }
-          if(!empty($last_answer) && !empty($question_id) && !empty($last_img)) {
+          if(!empty($last_answern) && !empty($question_id) && !empty($last_img)) {
             $QID=$_GET['Qid'];
             $Q=$_GET['Q'];
-            $insert = mysqli_query($connect, "UPDATE `Q$QID` SET `answer`='$last_answer',`img`='$last_img' WHERE `id` = $question_id");
+            $insert = mysqli_query($connect, "INSERT INTO `Q$QID`(`qid`, `answer`, `status`, `img`) VALUES ('$Q','$last_answern','$sttt','$last_img')");
             $temp=$_GET['Question'];
-        }
-         
+         }
+        
         }
 
-        if (isset($_POST['q_img'])){
-            $question = trim(htmlspecialchars(strip_tags($_POST["QQuestion"])));                   
+        if (isset($_POST['nq'])){
+            $question = trim(htmlspecialchars(strip_tags($_POST["new_q"])));                   
             $question_id = trim(htmlspecialchars(strip_tags($_POST["id"]))); 
             $checkbox = trim(htmlspecialchars(strip_tags($_POST["active"]))); 
             if(!empty($question)){
@@ -229,18 +317,12 @@
             if (empty($checkbox)) {
                     $checkbox = 0;
                 }    
-                echo "<script>console.log('$question');</script>";
-                echo "<script>console.log('$checkbox');</script>";
-                echo "<script>console.log('$question_id');</script>";
+               
             if(!empty($last_question) && !empty($question_id) && isset($checkbox)) {
                     $QID=$_GET['Qid'];
-                    echo "<script>console.log('hehe');</script>";
                     $Q=$_GET['Q'];
-                    $insert = mysqli_query($connect, "UPDATE `Q$QID` SET `status`='$checkbox' WHERE `qid` = $Q");
-                    $insert = mysqli_query($connect, "UPDATE `Q$QID` SET `question`='$last_question',`status`='$checkbox' WHERE `id` ='$question_id'");
-                    $temp=$_GET['Question'];
+                    $insert=mysqli_query($connect,"INSERT INTO `Q$QID`(`qid`, `question`, `answer`, `status`) VALUES ('$Q','$last_question','edit me','$checkbox')");
                 }
-
         }
 
     //  End Quiz Question Edition        
@@ -408,23 +490,30 @@
          <?
          $QID=$_GET['Qid'];
          $Q=$_GET['Q'];
-         $q = mysqli_query($connect,"SELECT MIN(id) FROM `Q$QID` WHERE `qid`= $Q");
-         $min = mysqli_fetch_assoc($q);
-         $min = $min['MIN(id)'];
-         $q = mysqli_query($connect,"SELECT MAX(id) FROM `Q$QID` WHERE `qid`= $Q");
-         $max = mysqli_fetch_assoc($q);
-         $max = $max['MAX(id)'];
+         $q = mysqli_query($connect,"SELECT MAX(id) FROM `Q$QID` WHERE `qid` = '$Q'");
+         $mmm = mysqli_fetch_assoc($q);
+         $mmm = $mmm['MAX(id)'];
          $g=1;
-         for($i=$min; $i<=$max;$i++) {
+         $f=1;
+        if (isset($mmm)) {
+            $q = mysqli_query($connect,"SELECT MIN(id) FROM `Q$QID` WHERE `qid`= $Q");
+            $min = mysqli_fetch_assoc($q);
+            $min = $min['MIN(id)'];
+            $q = mysqli_query($connect,"SELECT MAX(id) FROM `Q$QID` WHERE `qid`= $Q");
+            $max = mysqli_fetch_assoc($q);
+            $max = $max['MAX(id)'];
+
+            for($i=$min; $i<=$max;$i++) {
              $q = mysqli_query($connect,"SELECT * FROM `Q$QID` WHERE `qid`= $Q AND `id` = $i");
              $r = mysqli_fetch_assoc($q);
-
+             
             if(!empty($r)){
              ?>
-         <? if(!empty($r['question'])) {
+             <? if(!empty($r['question'])) {
              $smth =$r['question'];
              $sttt =$r['status'];
              ?> 
+
              <form method='POST' style='margin-bottom: 2rem;'>
              <p>Question<p>
              <input name='id' type='hidden' value="<?=$r['id']?>">
@@ -436,29 +525,64 @@
               
              </div>
              <button type='submit' class='btn' name='q_img'>Update Question</button>
-             </form> <? } ?>
-         <li  class="ng-scope" id="qa<?echo $i;?>">
+             </form > <? } ?>
+             <li  class="ng-scope" id="qa<?echo $i;?>">
              <p>Answer number <?=$g;?><p>
-             <form method='POST' style="margin:1rem 0;">
+             <form method='POST' style="margin:1rem 0;" enctype="multipart/form-data">
              <input name='id' type='hidden' value="<?=$r['id']?>">
-            <?=(isset($error_answer) && $question_id == $r['id'])?"<p style='color:red; font-size:23px;'>$error_answer</p>":""; ?>
-            <input class="form-control" required placeholder="Answer" name="answer" type="text" value="<?=$r['answer']?>" style="margin-bottom: 1rem;">
-            <?=(isset($statusMsg) && $question_id == $r['id'] && $sttt == 1)?"<p style='color:red; font-size:23px;'>$statusMsg</p>":""; ?>
-            <? if($sttt==1){ ?><input class="form-control" type="file" name="image" style="margin-bottom: 1rem;"> <?}?> 
-            <input type="submit" class="btn" name='update'>
+             <?=(isset($error_answer) && $question_id == $r['id'])?"<p style='color:red; font-size:23px;'>$error_answer</p>":""; ?>
+             <input class="form-control" required placeholder="Answer" name="answer" type="text" value="<?=$r['answer']?>" style="margin-bottom: 1rem;">
+             <?=(isset($statusMsg) && $question_id == $r['id'] && $sttt == 1)?"<p style='color:red; font-size:23px;'>$statusMsg</p>":""; ?>
+             <? if($sttt==1){ ?> 
+             <input class="form-control" type="file" name="image" style="margin-bottom: 1rem;"> 
+             <?}?> 
+             <input type="submit" class="btn" name='update'>
              </form>
-         </li>
-         <?
-         $g++;
-            }
-           }
+             </li>
+             <?
+             $g++;
+                }
+               }
+               $g++;
+        }
+        if (!isset($mmm)) {
+            $g=1;
+         ?>
+
+             <form method='POST' style='margin-bottom: 2rem;'>
+             <p>Add a question<p>
+             <input name='id' type='hidden' value="<?=$g;?>">
+             <?=(isset($error_question) && $question_id == $g)?"<p style='color:red; font-size:23px;'>$error_question</p>":""; ?>
+             <input class='form-control' required placeholder='Question' value='' name='new_q' style='margin-bottom: 2rem;'>
+             <div class='checkbox_cont'> 
+              <input type='checkbox' name='active' style=' width: 15px; height: 15px; margin-top:11px;' value='1' >
+              <label style="height: 15px; margin-top:8px;">Image Status</label>
+              
+             </div>
+             <button type='submit' class='btn' name='nq'>Add Question</button>
+             </form>
+
+         <?}
          ?>
          
+         <li  class="ng-scope" id="qa<?echo $i;?>">
+             <p>Add a new answer<p>
+             <form method='POST' style="margin:1rem 0;">
+             <input name='id' type='hidden' value="<?=$g?>">
+            <?=(isset($error_answern) && $question_id == $g)?"<p style='color:red; font-size:23px;'>$error_answern</p>":""; ?>
+            <input class="form-control" required placeholder="New Answer" name="answer" type="text" value="<?=$answern?>" style="margin-bottom: 1rem;">
+            <?=(isset($statusMsg) && $question_id == $g && $sttt == 1)?"<p style='color:red; font-size:23px;'>$statusMsg</p>":""; ?>
+            <? if($sttt==1){ ?><input class="form-control" type="file" name="image" style="margin-bottom: 1rem;"> <?}?> 
+            <input type="submit" class="btn" name='add'>
+             </form>
+         </li>
+         
              </ul>
-        </div>
+         </div>
       
 
-            <?}?>
+            <?
+            }?>
 
         
      <!-- End of the QuizEdit part-->
