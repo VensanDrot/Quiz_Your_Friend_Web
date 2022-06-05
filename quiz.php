@@ -26,17 +26,22 @@ $que = $que['question'];
 ?>
 
 <script type="text/javascript">
+if(localStorage.getItem('<?echo $n;?>') !== null){
+    //window.location.href='finish.php';
+}
 
-console.log("<? echo $stat;?>");
+
 
 var g = 1;
-
+// map creating
 var map = new Map([
 ["Quiz_Id", "<? echo $n ?>"],
 ["User_ID", "<? echo $_COOKIE['UserId'];?>"],
 ]);
+// pars to local storage
 map = new Map(JSON.parse(localStorage.Newmap));
 
+//save the answer to the map
 function saveChange(clicked_id) {
     var res= clicked_id;
     
@@ -51,11 +56,17 @@ function saveChange(clicked_id) {
     
     }
 
-    console.log(map.size);
+    //console.log(map.size);
 
     if(map.size == <?=$maxq+2?>){
-       // window.location.href='finish.php';
+        window.location.href='finish.php?Qid=<?=$n;?>';
         localStorage.setItem("<?echo $n;?>", "<?echo $_COOKIE['UserId'];?>");
+        
+        console.log(window.location.host);
+        console.log(window.location.pathname );
+        console.log(window.location.search );
+
+
     }
   
 
@@ -132,10 +143,11 @@ function saveChange(clicked_id) {
  	 </div>
  </div>
 
+
 <script> 
 
-
-function move(){
+    // move to next question
+    function move(){
       
       f = <? echo $_COOKIE["f"];?>;
          
@@ -168,19 +180,16 @@ function move(){
            }
            console.log("<? echo $_COOKIE["f"];?>");
          
-      }
-  
-
-
-
-
-for(i=1; i<= <?echo $maxq?>; i++){
-    if(map.get("Q"+i)){
-     
-        const check = document.getElementById("Q"+i);
-        check.classList.add("done");
     }
-    for(g=<?echo $min?>; g<= <?echo $max?>; g++){
+  
+    // Done classes using map
+    for(i=1; i<= <?echo $maxq?>; i++){
+     if(map.get("Q"+i)){
+      
+         const check = document.getElementById("Q"+i);
+         check.classList.add("done");
+     }
+     for(g=<?echo $min?>; g<= <?echo $max?>; g++){
        // console.log(map.get("Q"+i));
         if(map.get("Q"+i) == g){
             const check = document.getElementById("qa"+g).firstChild;
@@ -188,7 +197,7 @@ for(i=1; i<= <?echo $maxq?>; i++){
             const heck = document.getElementById("qa"+g);
             heck.classList.add("lidone");
         }
-    }
+     }
 
     }
 

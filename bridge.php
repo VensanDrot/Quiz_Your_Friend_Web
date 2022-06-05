@@ -3,17 +3,24 @@
     $Qid = $_GET['Qid'];
 ?>
  <script>
-     if (localStorage.getItem('UserId') != null ) {
-        window.location.href='quiz.php?Qid=<?echo $Qid;?>&Qn=1';
+     if (localStorage.getItem('UserId') !== null ) {
         document.cookie = "UserId="+localStorage.getItem('UserId');
+        window.location.href='quiz.php?Qid=<?echo $Qid;?>&Qn=1';
+     }
+
+     if( localStorage.getItem('<?=$Qid;?>') !== null ){
+     window.location.href='finish.php';
      }
  </script>
    
 
 
    <?
-   if( isset($_POST["startQuiz"]) && !isset($_COOKIE['UserId']) ){
+   if( isset($_POST["startQuiz"])){
     $q = mysqli_query($connect,"SELECT MAX(id) FROM `users`");
+    echo"<script>
+       console.log('hehe');
+        </script>";
     $newid=$row["MAX(id)"]+1;
     $row = mysqli_fetch_assoc($q);
     $name = trim(htmlspecialchars(strip_tags($_POST["name"])));
@@ -24,9 +31,9 @@
     $insert = mysqli_query($connect, "INSERT INTO `users`(`name`, `countryID`) VALUES ('$name','$cid')");
     ?> 
     <script type="text/javascript">
+        console.log('gere');
        document.cookie = "UserId=<?echo $newid;?>";
        localStorage.setItem('UserId', <?echo $newid;?>);
-       localStorage.setItem('Done', '0');
     </script>
 <?     
     

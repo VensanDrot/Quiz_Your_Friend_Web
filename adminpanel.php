@@ -447,18 +447,21 @@
               for ($i=1; $i <=$max_quiz_id ; $i++) { 
                $q = mysqli_query($connect,"SELECT * FROM `quizes` WHERE `id` = $i");
                $r = mysqli_fetch_assoc($q);
-
-
-
-              if(!empty($r['QName'])) { 
-
+              if(!empty($r['QName'])) {
+                  $checkbox = $r['status']; 
             ?>
-           <li style="display: flex; justify-content:space-between;">
+           <li style="display: flex; justify-content:space-between; gap:0.5rem">
            <button class="erase" id='<?=$r['id'];?>' onclick="location.href='adminpanel.php?Part=QuizEdit&Qid=<?=$r['id']?>&Question=<?=$r['questions']?>&Q=1'" >
-           <i style="font-size:15px;" class="fa-solid fa-pen-to-square"></i>
+           <i style="font-size:15px; margin:0;" class="fa-solid fa-pen-to-square"></i>
             </button>
-           <p><?=$r['QName'];?></p>
-           <p><?=$r['status'];?></p>
+           <p style="margin:0;"><?=$r['QName'];?></p>
+           <div style="display: flex; align-items:baseline; justify-content:center; align-items:center;"> 
+           
+           <p><?if($r['status']==1){echo 'active';}
+           else echo 'diactivated';?></p>
+            <input id='<?=$r['id'];?>' type="checkbox"  onclick="toggle(this.id, this.value)" name="active" style="  width: 15px; height: 15px; margin-top:-9px;" value='<?=$checkbox;?>' <?if($checkbox==1){echo "checked";}?> >
+            </div>
+            
           </li>
           <?
                }
@@ -584,6 +587,7 @@
              </form>
 
          <?}
+         if (isset($mmm)){
          ?>
          
          <li  class="ng-scope" id="qa<?echo $i;?>">
@@ -603,6 +607,7 @@
       
 
             <?
+            }
             }?>
 
         
@@ -639,6 +644,7 @@
     //Delete moders if main admin 
         function deletead(aid) {
          document.cookie = "Adid="+aid;
+         
          <?
              $delid = $_COOKIE['Adid'];
              if($_SESSION['Status'] == 1) {
@@ -648,6 +654,25 @@
         window.location.href='adminpanel.php?Part=Admin';
      }
     //End
+
+    function toggle(aid,val) {
+         document.cookie = "change="+aid;
+         console.log(val);
+         if (val == 1) {
+            document.cookie = "m="+0;
+        } 
+        if (val== 0) {
+            document.cookie = "m="+1;
+        }
+         <?
+             $m =$_COOKIE['m'];
+             $delid = $_COOKIE['change'];
+             $delete = mysqli_query($connect, "UPDATE `Quizes` SET `status`='$m' WHERE `id` = '$delid'");         
+         ?>  
+         alert("Reload the page");
+          window.location.reload();     
+        
+     }
 
 </script>
 

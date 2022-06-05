@@ -74,6 +74,8 @@
     float: left;
     border-bottom-width: 0 !important;
     margin: 0 10px -1px 0;
+    margin-bottom: 5px;
+    margin-top: 5px;
     background: #cbccce;
     border-radius: 36px;
     width: 30px;

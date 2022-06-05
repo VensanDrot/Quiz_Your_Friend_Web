@@ -1,7 +1,18 @@
 <?require_once("header.php");?>
 
 <script>
-    
+     console.log(window.location.host);
+        console.log(window.location.pathname );
+        console.log(window.location.search );
+        map = new Map(JSON.parse(localStorage.Newmap));
+        console.log(map.get("Q1"));
+    link=window.location.host+window.location.pathname+window.location.search+'&User='+localStorage.getItem('UserId');
+    for (var i = 1; i <= map.size-2; i++) {
+        link+= '&Q'+i+'='+map.get('Q'+i);
+    }
+    console.log(link);
+
+
 </script>
 
 
