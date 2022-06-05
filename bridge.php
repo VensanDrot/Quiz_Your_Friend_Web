@@ -3,7 +3,7 @@
     $Qid = $_GET['Qid'];
 ?>
  <script>
-     if (localStorage.getItem('UserId') !== null) {
+     if (localStorage.getItem('UserId') != null ) {
         window.location.href='quiz.php?Qid=<?echo $Qid;?>&Qn=1';
         document.cookie = "UserId="+localStorage.getItem('UserId');
      }
@@ -18,8 +18,7 @@
     $row = mysqli_fetch_assoc($q);
     $name = trim(htmlspecialchars(strip_tags($_POST["name"])));
     $cid = trim(htmlspecialchars(strip_tags($_POST["countryId"])));
-    echo $newid;
-    echo $cid;
+   
     
     if(!empty($name) && !empty($cid)) {
     $insert = mysqli_query($connect, "INSERT INTO `users`(`name`, `countryID`) VALUES ('$name','$cid')");
@@ -27,6 +26,7 @@
     <script type="text/javascript">
        document.cookie = "UserId=<?echo $newid;?>";
        localStorage.setItem('UserId', <?echo $newid;?>);
+       localStorage.setItem('Done', '0');
     </script>
 <?     
     
