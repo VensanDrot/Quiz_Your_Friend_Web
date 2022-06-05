@@ -116,9 +116,10 @@ function saveChange(clicked_id) {
                                 $q = mysqli_query($connect,"SELECT * FROM `$n` WHERE `qid`=$qn AND `id` = $i");
                                 $r = mysqli_fetch_assoc($q);
                              ?>
-        <li  class="ng-scope" id="qa<?echo $i;?>"><a id="<?echo $i;?>" class="ng-binding"  onclick="saveChange(this.id)">
+        <li class="ng-scope" id="qa<?echo $i;?>" <?if (empty($r['answer'])&&empty($r['img'])){echo "style='display:none;'";}?>>
+        <a id="<?echo $i;?>" class="ng-binding"  onclick="saveChange(this.id)">
         <div class="img_ser"><img alt="" src="<?echo $r["img"];?>"></div>
-        <figcaption>Aquarius</figcaption></a>
+        <figcaption><?=$r['answer']?></figcaption></a>
         </li><!-- end ngRepeat: option in currentQuestion.options -->
 
                                     <? }

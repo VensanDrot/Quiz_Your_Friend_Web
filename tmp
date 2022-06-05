@@ -1,26 +1,52 @@
- $table = mysqli_query($connect,"CREATE TABLE Q2 (
-    id INT(15) AUTO_INCREMENT PRIMARY KEY,
-    qid INT(15),
-    question VARCHAR(50),
-    answer VARCHAR(50),
-    status TINYINT(1) NULL,
-    img VARCHAR(50)
-    )");
+   <div class="answer_questions" >
 
-      
-            if (isset($last_img) && isset($last_name) && isset($last_nques)){
-                $insert = mysqli_query($connect,"INSERT INTO `Quizes`(`name`, `img`, `questions`, `status`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5])")
-            }
+            <ul class="questionNoList err">
+            <li><p>All quizes</p></li>
+
+              <? 
+              $q = $q = mysqli_query($connect,"SELECT MAX(id) FROM `quizes`");
+              $max_quiz_id = mysqli_fetch_assoc($q);
+              $max_quiz_id = $max_quiz_id['MAX(id)'];
+              for ($i=1; $i <=$max_quiz_id ; $i++) { 
+               $q = mysqli_query($connect,"SELECT * FROM `quizes` WHERE `id` = $i");
+               $r = mysqli_fetch_assoc($q);
 
 
-            $q =  mysqli_query($connect,"SELECT `id` FROM `Quizes` WHERE `name`=`$last_name` AND `img`=`$last_img` AND `questions` = `$last_nques` AND `status` = `$checkbox`)");
-                $que = mysqli_fetch_assoc($q);
-                $tname = "Q"+$que['id'];
-                $table = mysqli_query($connect,"CREATE TABLE $tname (
-                    id INT(15) AUTO_INCREMENT PRIMARY KEY,
-                    qid INT(15),
-                    question VARCHAR(50),
-                    answer VARCHAR(50),
-                    status TINYINT(1) NULL,
-                    img VARCHAR(50)
-                    )");
+
+              if(!empty($r['QName'])) { 
+
+            ?>
+           <li style="display: flex; justify-content:space-between;">
+           <button class="erase" id='<?=$r['id'];?>' onclick='' >
+           <i style="font-size:15px;"class="fa-solid fa-eraser"></i></button>
+           <p><?=$r['QName'];?></p>
+           <p><?=$r['status'];?></p>
+          </li>
+          <?
+               }
+              }
+              ?>
+
+              <!-- sample of li
+                 <li><button class="answers">Version 1</button></li>
+                -->
+            </ul>
+          
+        </div>
+            
+        <?
+        } 
+     
+
+    //  End New Quiz Creation start    
+
+  
+?>
+
+      <div class='checkbox_cont'> 
+            <input type='checkbox' name='active' style='  width: 15px; height: 15px;' value='1'>
+             <label>Quiz active status</label>
+            </div>
+
+
+            UPDATE `Q1` SET `id`=[value-1],`qid`=[value-2],`question`=[value-3],`answer`=[value-4],`status`=[value-5],`img`=[value-6] WHERE 1
