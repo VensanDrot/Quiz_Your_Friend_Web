@@ -49,4 +49,7 @@
             </div>
 
 
-            UPDATE `Q1` SET `id`=[value-1],`qid`=[value-2],`question`=[value-3],`answer`=[value-4],`status`=[value-5],`img`=[value-6] WHERE 1
+            UPDATE `Q1` 
+            
+
+            UPDATE `admins` SET `id`=[value-1],`login`=[value-2],`password`=[value-3],`status`=[value-4] WHERE 1

@@ -49,7 +49,7 @@ require_once("public/Functions/dbcon.php");?>
                 <!-- links should be changed -->
                 <li><a href="adminpanel.php?Part=Admin">Admins</a></li>
                 <li><a href="adminpanel.php?Part=Quiz">Quiz</a></li>
-                <li><a href="adminpanel.php?Part=Quiz">Change Password</a></li>
+                <li><a href="adminpanel.php?Part=ChangePass">Change Password</a></li>
                 <li><a href="public/Functions/logout.php">logout</a></li>
             </ul>
         </div>

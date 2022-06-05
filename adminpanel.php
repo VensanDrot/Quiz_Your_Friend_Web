@@ -327,6 +327,27 @@
 
     //  End Quiz Question Edition        
  
+    // Start PassChange
+        if(isset($_POST['Change'])) {
+            $pass = trim(htmlspecialchars(strip_tags($_POST["pass"])));                   
+            $pass1= trim(htmlspecialchars(strip_tags($_POST["pass1"]))); 
+            if(!empty($pass) && strlen($pass)>=8){
+                $last_password = md5($pass);
+                }else{
+                $error_password = "Password should be at least 8 characters  ";
+            }
+            if(!empty($pass1) && strlen($pass)>=8 && $pass == $pass1){
+                $last_password = md5($pass);
+                }else{
+                $error_password1 = "Passwords is not matching!";
+            }
+            if (!empty($last_password)) {
+                $l=$_SESSION["AdminLogin"];
+                $update = mysqli_query($connect,"UPDATE `admins` SET `password`='$last_password' WHERE `login`='$l'");
+            }
+        
+        }
+    // End PassChange
 
     ?>     
 
@@ -587,7 +608,25 @@
         
      <!-- End of the QuizEdit part-->
      
-             
+     <!-- Start of Password Change-->
+      <?
+        if ($Part == 'ChangePass') {
+        $Quiz_id = $_GET['Qid'];
+        ?>
+     
+            <div class="">
+            <h1 class="ng-binding">Change Your Password</h1>
+            <form method="POST" style="margin:1rem 0;">
+            <?=(isset($error_password))?"<p style='color:red; font-size:23px;'>$error_password</p>":""; ?>
+            <input class="form-control"  placeholder="Enter password" maxlength="25" name="pass" id="pass" type="password" value=""  style="margin-bottom: 1rem;">
+            <?=(isset($error_password1))?"<p style='color:red; font-size:23px;'>$error_password1</p>":""; ?>
+            <input class="form-control"  placeholder="Enter password again" maxlength="25" name="pass1" id="pass" type="password" value=""  style="margin-bottom: 1rem;">
+            <input class="btn btn-lg btn-success btn-block" type="submit" name="Change" value="Change password">
+            </form>
+            </div>
+
+        <?}?>
+     <!-- End of Password Change-->        
 
     </div>   
 
@@ -610,7 +649,7 @@
      }
     //End
 
-    </script>
+</script>
 
     
 
