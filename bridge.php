@@ -21,8 +21,8 @@
     echo"<script>
        console.log('hehe');
         </script>";
-    $newid=$row["MAX(id)"]+1;
     $row = mysqli_fetch_assoc($q);
+    $newid=$row["MAX(id)"]+1;
     $name = trim(htmlspecialchars(strip_tags($_POST["name"])));
     $cid = trim(htmlspecialchars(strip_tags($_POST["countryId"])));
    

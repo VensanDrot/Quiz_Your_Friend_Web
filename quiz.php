@@ -56,16 +56,12 @@ function saveChange(clicked_id) {
     
     }
 
-    //console.log(map.size);
+    console.log(map.size);
 
     if(map.size == <?=$maxq+2?>){
         window.location.href='finish.php?Qid=<?=$n;?>';
         localStorage.setItem("<?echo $n;?>", "<?echo $_COOKIE['UserId'];?>");
-        
-        console.log(window.location.host);
-        console.log(window.location.pathname );
-        console.log(window.location.search );
-
+    
 
     }
   

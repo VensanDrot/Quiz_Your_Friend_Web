@@ -1,33 +1,31 @@
-<?require_once("header.php");?>
+<?require_once("header.php");
+?>
 
 <script>
-     console.log(window.location.host);
-        console.log(window.location.pathname );
-        console.log(window.location.search );
+         //console.log(window.location.host);
+        //console.log(window.location.pathname );
+        //console.log(window.location.search );
         map = new Map(JSON.parse(localStorage.Newmap));
-        console.log(map.get("Q1"));
-    link=window.location.host+window.location.pathname+window.location.search+'&User='+localStorage.getItem('UserId');
+        //console.log(map.get("Q1"));
+    link=window.location.host+window.location.pathname+window.location.search+'&User='+localStorage.getItem('UserId')+'&Qid='+map.get("Quiz_Id")+'&Answer=true';
     for (var i = 1; i <= map.size-2; i++) {
         link+= '&Q'+i+'='+map.get('Q'+i);
     }
-    console.log(link);
-
-
+    document.cookie = "Link="+link;
 </script>
 
 
+
+
 <div class="container">
-       <div class="enter_quiz reddy">
-                       
-            
-                  
-        
-        
+       <div class="enter_quiz reddy">    
     <!-- <br/>  -->
                    <h1 class="redeed">Your Quiz is Ready!</h1>
                    <p>Share your quiz-link with your friends!</p>
                        <p>They will try to guess your answers &amp; get a score out of 10.</p>
-                   <div class="link_share" id="linkDiv"></div>
+                   <div class="link_share" id="linkDiv">
+                    <?=$_COOKIE['Link'];?>
+                   </div>
             <div class="link-copied">Link Copied</div>
            <div class="clearfix"></div>
            <button class="btn btn-default cop_textred" id="copy-link">Copy Link</button>

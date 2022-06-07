@@ -351,6 +351,44 @@
 
     ?>     
 
+     
+<script>
+
+//Delete moders if main admin 
+    function deletead(aid) {
+     document.cookie = "Adid="+aid;
+     
+     <?
+         $delid = $_COOKIE['Adid'];
+         if($_SESSION['Status'] == 1) {
+         $delete = mysqli_query($connect, "DELETE FROM `admins` WHERE `id` = '$delid'");         
+        }
+     ?>  
+    window.location.href='adminpanel.php?Part=Admin';
+ }
+//End
+
+function toggle(aid,val) {
+     document.cookie = "change="+aid;
+     console.log(val);
+     if (val == 1) {
+        document.cookie = "m="+0;
+    } 
+    if (val== 0) {
+        document.cookie = "m="+1;
+    }
+     <?
+         $m =$_COOKIE['m'];
+         $delid = $_COOKIE['change'];
+         $delete = mysqli_query($connect, "UPDATE `Quizes` SET `status`='$m' WHERE `id` = '$delid'");         
+     ?>  
+     //alert("Reload the page");
+      window.location.reload();     
+    
+ }
+
+</script>
+
     <!-- html part -->
 
     <div class="container">
@@ -638,43 +676,7 @@
  <!-- script parts -->
 
 
- 
-<script>
 
-    //Delete moders if main admin 
-        function deletead(aid) {
-         document.cookie = "Adid="+aid;
-         
-         <?
-             $delid = $_COOKIE['Adid'];
-             if($_SESSION['Status'] == 1) {
-             $delete = mysqli_query($connect, "DELETE FROM `admins` WHERE `id` = '$delid'");         
-            }
-         ?>  
-        window.location.href='adminpanel.php?Part=Admin';
-     }
-    //End
-
-    function toggle(aid,val) {
-         document.cookie = "change="+aid;
-         console.log(val);
-         if (val == 1) {
-            document.cookie = "m="+0;
-        } 
-        if (val== 0) {
-            document.cookie = "m="+1;
-        }
-         <?
-             $m =$_COOKIE['m'];
-             $delid = $_COOKIE['change'];
-             $delete = mysqli_query($connect, "UPDATE `Quizes` SET `status`='$m' WHERE `id` = '$delid'");         
-         ?>  
-         alert("Reload the page");
-          window.location.reload();     
-        
-     }
-
-</script>
 
     
 
