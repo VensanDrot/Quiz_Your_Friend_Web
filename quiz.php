@@ -27,7 +27,7 @@ $que = $que['question'];
 
 <script type="text/javascript">
 if(localStorage.getItem('<?echo $n;?>') !== null){
-    //window.location.href='finish.php';
+    window.location.href='finish.php';
 }
 
 
@@ -67,6 +67,7 @@ function saveChange(clicked_id) {
   
 
 </script>
+
 
 
 
@@ -140,66 +141,6 @@ function saveChange(clicked_id) {
  </div>
 
 
-<script> 
-
-    // move to next question
-    function move(){
-      
-      f = <? echo $_COOKIE["f"];?>;
-         
-      if (<?echo $qn-1?> == 0 && <? echo $_COOKIE["f"];?>==1) {
-              f=0;
-              console.log("up");
-              document.cookie = "f="+f;
-              console.log("<? echo $_COOKIE["f"];?>");
-              }
-
-          if (<?echo $qn?> == <?echo $maxq?> && <? echo $_COOKIE["f"];?>==0) {
-                  f=1;
-                  console.log("down");
-                  document.cookie = "f="+f;
-                  console.log("<? echo $_COOKIE["f"];?>");
-              }
-       
-  
-          while(<?echo $qn?> < <?echo $maxq?> && f==0 ){
-              
-              window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>';
-              break;
-              
-           }
-           while(<?echo $qn?> > 1 && f==1){
-              
-              window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn-1;?>';
-             break;
-              
-           }
-           console.log("<? echo $_COOKIE["f"];?>");
-         
-    }
-  
-    // Done classes using map
-    for(i=1; i<= <?echo $maxq?>; i++){
-     if(map.get("Q"+i)){
-      
-         const check = document.getElementById("Q"+i);
-         check.classList.add("done");
-     }
-     for(g=<?echo $min?>; g<= <?echo $max?>; g++){
-       // console.log(map.get("Q"+i));
-        if(map.get("Q"+i) == g){
-            const check = document.getElementById("qa"+g).firstChild;
-            check.classList.add("lidone");
-            const heck = document.getElementById("qa"+g);
-            heck.classList.add("lidone");
-        }
-     }
-
-    }
-
-    
-
-</script>
 
 
 

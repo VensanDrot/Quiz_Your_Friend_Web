@@ -10,13 +10,13 @@
 // To Do
 // Convert this into angular.js code
 
-$(document).ready(function () {
+$(document).ready(function() {
 
-    $('#login-confirm-psw').focus(function () {
+    $('#login-confirm-psw').focus(function() {
         $('#login-password-err').hide();
     });
 
-    $('#country_dropdown').click(function () {
+    $('#country_dropdown').click(function() {
         $('#country_selector').slideToggle();
     });
 
@@ -26,16 +26,16 @@ $(document).ready(function () {
      });*/
 
     //code for removing the error message in input box when user click in the box 
-    $("#name").focus(function () {
+    $("#name").focus(function() {
         $(".bottom_div .error").css('display', 'none');
     });
-    $('.user_friend_side textarea').focus(function () { //to do for all themes for 
+    $('.user_friend_side textarea').focus(function() { //to do for all themes for 
         $(".error").css('display', 'none');
     });
     //end
 
     //code for closing the menu bar  to do in truth n dare
-    $(".middle_conatainer").click(function () {
+    $(".middle_conatainer").click(function() {
         $("#menu,nav,.navbar-collapse").removeClass('in show');
         $("#menu,.navbar-collapse").attr('aria-expanded', "false");
         $(".collapse-icon").attr('aria-expanded', "false");
@@ -92,14 +92,14 @@ $(document).ready(function () {
     }
 
     if (arrJsConfig.DFP_ADREFRESH_TI > 0) {
-        setInterval(function () {
+        setInterval(function() {
             refreshDfpAdd()
         }, arrJsConfig.DFP_ADREFRESH_TI);
     }
 
     var hamburger = document.querySelector('.hamburger');
     if (hamburger) {
-        hamburger.addEventListener('click', function () { return hamburger.classList.toggle('opened'); });
+        hamburger.addEventListener('click', function() { return hamburger.classList.toggle('opened'); });
     }
 
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
             heartImage: '/public/images/lovemeter/Heart.png',
             maxHearts: 20,
             minScale: 0.2,
-            draw: function () {
+            draw: function() {
                 this.setCanvasSize();
                 this.ctx.clearRect(0, 0, this.w, this.h);
                 for (var i = 0; i < this.hearts.length; i++) {
@@ -124,7 +124,7 @@ $(document).ready(function () {
                 }
                 this.move();
             },
-            move: function () {
+            move: function() {
                 for (var b = 0; b < this.hearts.length; b++) {
                     var heart = this.hearts[b];
                     heart.y += heart.ys;
@@ -134,13 +134,13 @@ $(document).ready(function () {
                     }
                 }
             },
-            setCanvasSize: function () {
+            setCanvasSize: function() {
                 this.canvas.width = document.getElementsByClassName("main_container")[0].clientWidth;
                 this.canvas.height = document.getElementsByClassName("main_container")[0].clientHeight;
                 this.w = this.canvas.width;
                 this.h = this.canvas.height;
             },
-            initialize: function () {
+            initialize: function() {
                 this.canvas = $('#canvas')[0];
 
                 if (!this.canvas.getContext)
@@ -182,10 +182,12 @@ function closeNav() {
 function addHoverClass(event) {
     $("#" + event.id).parent('div').addClass('optionHover');
 }
+
 function removeHoverClass(event) {
     $("#" + event.id).parent('div').removeClass('optionHover');
 }
 var elem = document.documentElement;
+
 function playHtml5Game() {
     $(".play_container").attr('src', $("#gameUrl").val());
     $('.banner_sec').addClass('play_game_sec');
@@ -207,11 +209,11 @@ function playHtml5Game() {
 
 
 $(".ins_submit_btn").click(function() {
-    let id= $("#name").val();
-    if(id==""){
+    let id = $("#name").val();
+    if (id == "") {
         $('#name').parent().addClass('err_active');
-    
-    }else{
+
+    } else {
         $('#name').parent().removeClass('err_active');
     }
 });
@@ -224,7 +226,7 @@ $('#name').click(function() {
 
 function check_play_form(name, e) {
     var isvalid = true;
-   
+
 
     $('.nameMsg').hide();
     $('.genderMsg').hide();
@@ -257,7 +259,7 @@ function check_play_form(name, e) {
             isvalid = false;
         }
     }
-    
+
 
     var name = $("#name").val();
     if (name.indexOf('@') != -1) {
