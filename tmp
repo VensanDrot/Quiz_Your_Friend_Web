@@ -37,3 +37,30 @@ else {
     result = result ;
     localStorage.setItem('result', result); 
 }
+<div class="
+
+
+
+"></div>
+
+
+
+if (<?=$qn+1;?> <= <?=$maxq;?>){
+    window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
+}
+else{
+    window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=1&Answer=True';
+}
+
+
+
+
+function m() {
+    if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> <= <?=$maxq;?>) {
+          window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
+      }
+      if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> > <?=$maxq;?>) {
+          window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=1&Answer=True';
+      }
+      
+}

@@ -128,6 +128,7 @@ if (!empty($_GET['Answer'])){
 
 
 
+
 result = 0;
 
 // resulting variable
@@ -142,18 +143,22 @@ if (localStorage.getItem('result') === null) {
 
     answered = new Map(JSON.parse(localStorage.Answered));
     ans = new Map(JSON.parse(localStorage.NewAnswer));
-    r = 2
+    r = 3;
 
-    if (localStorage.getItem('r') == null) {
+    if (localStorage.getItem('r') === null) {
           localStorage.setItem('r',r);
         }
     else {
         r = localStorage.getItem('r');
     }
   
+    
 
 
 // start save the answer to the map
+    
+      
+
     function saveChange(clicked_id) {
         
 
@@ -162,7 +167,6 @@ if (localStorage.getItem('result') === null) {
         map.set("Q<?echo $qn;?>", 'done'); 
             var fss = JSON.stringify(Array.from(map.entries()));
             localStorage.setItem('Answered', fss);
-            answered = new Map(JSON.parse(localStorage.Answered));
        
        
             if (answer.get('Q<?=$_GET['Qn'];?>') == clicked_id ){
@@ -171,43 +175,41 @@ if (localStorage.getItem('result') === null) {
             localStorage.setItem('result', result); 
            
         } 
-        
-        window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
-       
+        if (<?=$qn+1;?> <= <?=$maxq;?>) {
+           window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
+        }else {
+            window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=1&Answer=True';
+        }
+  
+                r = localStorage.getItem('r');
                 r ++;
                 localStorage.setItem('r',r);
-        
+                r = localStorage.getItem('r');
 
-                if(r == answered.size) {
-            document.cookie = 'FriendId='+ans.get('FriendId');
-            document.cookie = 'UserId='+ans.get('User_ID');
-            document.cookie = 'result='+ localStorage.getItem('result');
-            document.cookie = 'r='+r;
-            document.cookie = 'upload='+'smth';
+                if(r == answered.size-1) {
+                document.cookie = 'FriendId='+ans.get('FriendId');
+                document.cookie = 'UserId='+ans.get('User_ID');
+                document.cookie = 'result='+ localStorage.getItem('result');
+                document.cookie = 'r='+r;
+                document.cookie = 'upload='+'smth';
            // window.location.href='index.php';
         }
     
 
 
+
         }
 // end ofsave the answer to the map    
 
-
- 
-        
-
-    while (answered.get('Q<?=$qn;?>')=='done' && r <= answered.size ) {
       
-        if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> <= <?=$maxq;?>) {
-            window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
-        }
-        if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> > <?=$maxq;?>) {
-            window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=1&Answer=True';
-        }
-        
-    }
-    
-    
+
+if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> <= <?=$maxq;?> && r !=answered.size-1) {
+          window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
+      }
+      if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> > <?=$maxq;?> && r !=answered.size-1) {
+          window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=1&Answer=True';
+      }
+      
 
 
             
@@ -272,7 +274,7 @@ if (localStorage.getItem('result') === null) {
                //echo "<script>console.log($uid)</script>";
                //echo "<script>console.log($result)</script>";
                 if ($_COOKIE['upload']=='smth' ) {
-                    $insert = mysqli_query($connect,"INSERT INTO `results`( `userid`, `Qid`, `fid`, `result`) VALUES ('$uid','$n','$fid','$result')");
+                  $insert = mysqli_query($connect,"INSERT INTO `results`( `userid`, `Qid`, `fid`, `result`) VALUES ('$uid','$n','$fid','$result')");
                     echo "<script>  
                         window.localStorage.removeItem('r');
                         window.localStorage.removeItem('Answered');
