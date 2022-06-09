@@ -32,7 +32,7 @@ if (empty($_GET['Answer'])){
 
     <script type="text/javascript">
     if(localStorage.getItem('<?echo $n;?>') !== null){
-        window.location.href='finish.php';
+        window.location.href='finish.php?Qid=<?=$n;?>';
     }
 
 
@@ -121,7 +121,7 @@ if (!empty($_GET['Answer'])){
 
 <script type="text/javascript">
 //if(localStorage.getItem('<?echo $n;?>') !== null){
-//    window.location.href='finish.php';
+//    window.location.href='finish.php?Qid=<?echo $n;?>';
 //}
 
 

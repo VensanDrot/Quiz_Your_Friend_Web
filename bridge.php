@@ -1,10 +1,20 @@
 <?  
     require_once('header.php'); 
  
+    if (!empty($_GET['Code'])) {
+        $co=$_GET['Code'];
+        $q = mysqli_query($connect,"SELECT * FROM `Url`");
+        $r = mysqli_fetch_assoc($q);
+        $newurl = $r['url'];
+        echo "
+     <script>
+     window.location.href='$newurl';
+        </script>";
+    }
 
 // Start Register of the creator of the quiz // 
 
-    if (empty($_GET['Answer'])){
+    if (empty($_GET['Answer']) && empty($_GET['Code'])){
     $Qid = $_GET['Qid'];   
     
     echo "
@@ -16,7 +26,7 @@
      }
 
      if( localStorage.getItem('$Qid') !== null ){
-     window.location.href='finish.php';
+     window.location.href='finish.php?Qid=$Qid';
      }
 
     </script>";
@@ -157,7 +167,7 @@
         }
 
         if( localStorage.getItem('FrQid') == $Qid ){
-       window.location.href='finish.php';
+       window.location.href='finish.php?Qid=$Qid';
         }
 
        </script>";
