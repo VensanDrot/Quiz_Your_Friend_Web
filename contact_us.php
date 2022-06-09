@@ -7,7 +7,7 @@
  <title></title>
 
 
-<p><span id="docs-internal-guid-b72b578d-bae0-4a44-c3d7-f388721f15da" xss="removed">For any questions and queries regarding anything related to our site, namely advertisements, privacy policy etc, you may contact us via&nbsp;</span><a href="http://buzzyqiozz@gmail.com">Buzzyquizz@gmail.com</a><span xss="removed">.&nbsp;</span></p>
+<p><span id="docs-internal-guid-b72b578d-bae0-4a44-c3d7-f388721f15da" xss="removed">For any questions and queries regarding anything related to our site, namely advertisements, privacy policy etc, you may contact us via&nbsp;</span><a href="http://originalproducts48@gmail.com">originalproducts48@gmail.com</a><span xss="removed">.&nbsp;</span></p>
 
 <div>&nbsp;</div>
 

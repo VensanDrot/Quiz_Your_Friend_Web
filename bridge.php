@@ -1,17 +1,18 @@
 <?  
     require_once('header.php'); 
-    $Qid = $_GET['Qid'];
+ 
 
 // Start Register of the creator of the quiz // 
+
     if (empty($_GET['Answer'])){
-       
+    $Qid = $_GET['Qid'];   
     
     echo "
      <script>
     
      if (localStorage.getItem('UserId') !== null ) {
         document.cookie = 'UserId='+localStorage.getItem('UserId');
-        window.location.href='quiz.php?Qid=<?echo $Qid;?>&Qn=1';
+        window.location.href='quiz.php?Qid=$Qid&Qn=1';
      }
 
      if( localStorage.getItem('$Qid') !== null ){
@@ -40,7 +41,7 @@
     </script>
  <?     
     
-    //echo"<script>  window.location.href='quiz.php?Qid=$Qid&Qn=1';  </script>";
+    echo"<script>  window.location.href='quiz.php?Qid=$Qid&Qn=1'; </script>";
      
       
           }/**/
@@ -48,9 +49,126 @@
    
     }
 // End Register of the creator of the quiz //
+
+// Start Register a friend(responser) // 
+    if (!empty($_GET['Answer'])){
+        $user = $_GET['User'];
+        $check = $_GET['Answer'];
+        $Qid = $_GET['Qid'];
+
+        echo "
+        <script>
+
+        if (localStorage.getItem('FriendId') !== null ) {
+           document.cookie = 'FriendId='+localStorage.getItem('FriendId');
+
+           }
+           </script>";
+
+     
+       if(isset($_POST["startQuiz"])){
+            $q = mysqli_query($connect,"SELECT MAX(id) FROM `users`");
+            $row = mysqli_fetch_assoc($q);
+            $newid=$row["MAX(id)"]+1;
+            $name = trim(htmlspecialchars(strip_tags($_POST["name"])));
+            $cid = trim(htmlspecialchars(strip_tags($_POST["countryId"])));
+        
+
+            if(!empty($name) && !empty($cid)) {
+            $insert = mysqli_query($connect, "INSERT INTO `users`(`name`, `countryID`) VALUES ('$name','$cid')");
+            ?> 
+            <script type="text/javascript">
+               document.cookie = "FriendId=<?echo $newid;?>";
+               localStorage.setItem('FriendId', <?echo $newid;?>);
+               <?$friendid=$_COOKIE['FriendId'];?>
+               var answer = new Map([
+                ["Quiz_Id", "<?=$Qid;?>"],
+                ["User_ID", "<?=$user;?>"],
+                ]);
+               friendid = localStorage.getItem('FriendId');
+                answer.set("FriendId", friendid);
+
+                var fss = JSON.stringify(Array.from(answer.entries()));
+                localStorage.setItem('NewAnswer', fss);
+            </script>
+         <?     
+            $q = mysqli_query($connect,"SELECT MAX(qid) FROM `$Qid`");
+            $row = mysqli_fetch_assoc($q);
+            $max=$row["MAX(qid)"];
+            for ($i=1;$i<=$max;$i++) {
+              $temp = $_GET['Q'.$i]; ?>    
+              <script>
+                  answer = new Map(JSON.parse(localStorage.NewAnswer));
+                  answer.set('Q<?=$i;?>', '<?=$temp;?>');
+                  console.log('hehe');
+                  var fss = JSON.stringify(Array.from(answer.entries()));
+                  localStorage.setItem('NewAnswer', fss);
+              </script>    
+            <? }
+
+            echo"<script>window.location.href='quiz.php?Qid=$Qid&Qn=1&Answer=True';  </script>";
+            
+                  }/**/
+    }
+
+          if (!empty($_COOKIE['FriendId'])){
+            $user = $_GET['User'];
+            $check = $_GET['Answer'];
+            $Qid = $_GET['Qid'];
+              ?>
+              <script type="text/javascript">
+           <?$friendid=$_COOKIE['FriendId'];?>
+           var answer = new Map([
+            ["Quiz_Id", "<?=$Qid;?>"],
+            ["User_ID", "<?=$user;?>"],
+            ]);
+           friendid = localStorage.getItem('FriendId');
+            answer.set("FriendId", <?=$_COOKIE['FriendId'];?>);
+            
+            var fss = JSON.stringify(Array.from(answer.entries()));
+            localStorage.setItem('NewAnswer', fss);
+        </script>
+              <?
+              $q = mysqli_query($connect,"SELECT MAX(qid) FROM `$Qid`");
+              $row = mysqli_fetch_assoc($q);
+              $max=$row["MAX(qid)"];
+              for ($i=1;$i<=$max;$i++) {
+                $temp = $_GET['Q'.$i]; ?>    
+                <script>
+                    answer = new Map(JSON.parse(localStorage.NewAnswer));
+                    answer.set('Q<?=$i;?>', '<?=$temp;?>');
+                    console.log('hehe');
+                    var fss = JSON.stringify(Array.from(answer.entries()));
+                    localStorage.setItem('NewAnswer', fss);
+                </script>    
+              <? }
+          }
+
+
+
+          // create a new map for results
+          
+        echo "
+        <script>
+
+        if (localStorage.getItem('FriendId') !== null ) {
+           document.cookie = 'FriendId='+localStorage.getItem('FriendId');
+           window.location.href='quiz.php?Qid=$Qid&Qn=1&Answer=True';
+        }
+
+        if( localStorage.getItem('FrQid') == $Qid ){
+       window.location.href='finish.php';
+        }
+
+       </script>";
+        
+        }
+// End Register a friend(responser) //
+
 ?>
+<?
 
-
+?>
 
 
 
@@ -137,6 +255,7 @@
  <script type="text/javascript" src="public/js/jquery.min.js"></script>
  <script type="text/javascript" src="public/js/site.js"></script>
  
+
 
 
 <?

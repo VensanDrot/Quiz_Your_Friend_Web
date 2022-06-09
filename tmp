@@ -1,55 +1,30 @@
-   <div class="answer_questions" >
-
-            <ul class="questionNoList err">
-            <li><p>All quizes</p></li>
-
-              <? 
-              $q = $q = mysqli_query($connect,"SELECT MAX(id) FROM `quizes`");
-              $max_quiz_id = mysqli_fetch_assoc($q);
-              $max_quiz_id = $max_quiz_id['MAX(id)'];
-              for ($i=1; $i <=$max_quiz_id ; $i++) { 
-               $q = mysqli_query($connect,"SELECT * FROM `quizes` WHERE `id` = $i");
-               $r = mysqli_fetch_assoc($q);
-
-
-
-              if(!empty($r['QName'])) { 
-
-            ?>
-           <li style="display: flex; justify-content:space-between;">
-           <button class="erase" id='<?=$r['id'];?>' onclick='' >
-           <i style="font-size:15px;"class="fa-solid fa-eraser"></i></button>
-           <p><?=$r['QName'];?></p>
-           <p><?=$r['status'];?></p>
-          </li>
-          <?
-               }
-              }
+$user = $_GET['User'];
+            $check = $_GET['Answer'];
+            $Qid = $_GET['Qid'];
               ?>
-
-              <!-- sample of li
-                 <li><button class="answers">Version 1</button></li>
-                -->
-            </ul>
-          
-        </div>
+              <script type="text/javascript">
+           <?$friendid=$_COOKIE['FriendId'];?>
+           var answer = new Map([
+            ["Quiz_Id", "<?=$Qid;?>"],
+            ["User_ID", "<?=$user;?>"],
+            ]);
+           friendid = localStorage.getItem('FriendId');
+            answer.set("FriendId", <?=$_COOKIE['FriendId'];?>);
             
-        <?
-        } 
-     
-
-    //  End New Quiz Creation start    
-
-  
-?>
-
-      <div class='checkbox_cont'> 
-            <input type='checkbox' name='active' style='  width: 15px; height: 15px;' value='1'>
-             <label>Quiz active status</label>
-            </div>
-
-
-            UPDATE `Q1` 
-            
-
-            UPDATE `admins` SET `id`=[value-1],`login`=[value-2],`password`=[value-3],`status`=[value-4] WHERE 1
+            var fss = JSON.stringify(Array.from(answer.entries()));
+            localStorage.setItem('NewAnswer', fss);
+        </script>
+              <?
+              $q = mysqli_query($connect,"SELECT MAX(qid) FROM `$Qid`");
+              $row = mysqli_fetch_assoc($q);
+              $max=$row["MAX(qid)"];
+              for ($i=1;$i<=$max;$i++) {
+                $temp = $_GET['Q'.$i]; ?>    
+                <script>
+                    answer = new Map(JSON.parse(localStorage.NewAnswer));
+                    answer.set('Q<?=$i;?>', '<?=$temp;?>');
+                    console.log('hehe');
+                    var fss = JSON.stringify(Array.from(answer.entries()));
+                    localStorage.setItem('NewAnswer', fss);
+                </script>    
+              <? }

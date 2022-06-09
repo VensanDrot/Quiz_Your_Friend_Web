@@ -1,5 +1,6 @@
    <div class="footer">
-        <div class="footer_button_img">
+   <!--     
+   <div class="footer_button_img">
             <ul>
                 <li>
                     <a href="https://www.facebook.com/Hola-Quiz-107029965193433" target="_blank"><img src="public/images/footer_fb.png"></a>
@@ -14,7 +15,7 @@
             </ul>
 
         </div>
-
+-->
 
         <div class="footer_menu">
             <ul>
