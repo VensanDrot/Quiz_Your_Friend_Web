@@ -1,27 +1,30 @@
 <?require_once("header.php");?>
 <?
+//variables
 
-$n= $_GET['Qid'];
-$qn= $_GET['Qn'];
-$q = mysqli_query($connect,"SELECT MAX(qid) FROM `$n`");
-$row = mysqli_fetch_assoc($q);
-$maxq= intval($row['MAX(qid)']);
+    $n= $_GET['Qid'];
+    $qn= $_GET['Qn'];
+    $q = mysqli_query($connect,"SELECT MAX(qid) FROM `$n`");
+    $row = mysqli_fetch_assoc($q);
+    $maxq= intval($row['MAX(qid)']);
 
-$q = mysqli_query($connect,"SELECT MAX(id) FROM `$n` WHERE `qid`=$qn");
-$max = mysqli_fetch_assoc($q);
-$max=intval($max['MAX(id)']);
+    $q = mysqli_query($connect,"SELECT MAX(id) FROM `$n` WHERE `qid`=$qn");
+    $max = mysqli_fetch_assoc($q);
+    $max=intval($max['MAX(id)']);
 
-$q = mysqli_query($connect,"SELECT MIN(id) FROM `$n` WHERE `qid`=$qn");
-$min = mysqli_fetch_assoc($q);
-$min = intval($min['MIN(id)']);
+    $q = mysqli_query($connect,"SELECT MIN(id) FROM `$n` WHERE `qid`=$qn");
+    $min = mysqli_fetch_assoc($q);
+    $min = intval($min['MIN(id)']);
 
-$q = mysqli_query($connect,"SELECT `status` FROM `$n` WHERE `qid`=$qn");
-$stat =mysqli_fetch_assoc($q);
-$stat = $stat['status'];
+    $q = mysqli_query($connect,"SELECT `status` FROM `$n` WHERE `qid`=$qn");
+    $stat =mysqli_fetch_assoc($q);
+    $stat = $stat['status'];
 
-$q = mysqli_query($connect,"SELECT `question` FROM `$n` WHERE `qid`=$qn AND `id`=$min");
-$que= mysqli_fetch_assoc($q);
-$que = $que['question'];
+    $q = mysqli_query($connect,"SELECT `question` FROM `$n` WHERE `qid`=$qn AND `id`=$min");
+    $que= mysqli_fetch_assoc($q);
+    $que = $que['question'];
+
+//end of variables
 
 if (empty($_GET['Answer'])){
 
@@ -126,6 +129,8 @@ if (!empty($_GET['Answer'])){
 
 
 result = 0;
+
+// resulting variable
 if (localStorage.getItem('result') === null) {
         localStorage.setItem('result', result);
     }
@@ -135,70 +140,70 @@ if (localStorage.getItem('result') === null) {
     // pars to local storage
     map = new Map(JSON.parse(localStorage.Answered));
 
-//save the answer to the map
-function saveChange(clicked_id) {
-    answer = new Map(JSON.parse(localStorage.NewAnswer));
-    map.set("Q<?echo $qn;?>", 'done');
-        var fss = JSON.stringify(Array.from(map.entries()));
-        localStorage.setItem('Answered', fss);
-
-    if (answer.get('Q<?=$_GET['Qn'];?>') == clicked_id){
-        result = parseInt(localStorage.getItem('result'));
-        result = result +1;
-        localStorage.setItem('result', result); 
-        window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
-    }
-    else {
-        window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
-        result = parseInt(localStorage.getItem('result'));
-        result = result ;
-        localStorage.setItem('result', result); 
-    }
-
-    
-
-    }
-    
-
-    
     answered = new Map(JSON.parse(localStorage.Answered));
     ans = new Map(JSON.parse(localStorage.NewAnswer));
-    r = 1
+    r = 2
+
     if (localStorage.getItem('r') == null) {
           localStorage.setItem('r',r);
         }
     else {
         r = localStorage.getItem('r');
     }
-    if (r == answered.size) {
-            console.log('hehe')
-        }
+  
+
+
+// start save the answer to the map
+    function saveChange(clicked_id) {
         
 
-    while (answered.get('Q<?=$qn;?>')=='done' && r <= answered.size ) {
-      
-        for (i=1;i <= answered.size; i++){
-            if (answered.get('Q'+i) == 'done') {
+
+        answer = new Map(JSON.parse(localStorage.NewAnswer));
+        map.set("Q<?echo $qn;?>", 'done'); 
+            var fss = JSON.stringify(Array.from(map.entries()));
+            localStorage.setItem('Answered', fss);
+            answered = new Map(JSON.parse(localStorage.Answered));
+       
+       
+            if (answer.get('Q<?=$_GET['Qn'];?>') == clicked_id ){
+            result = parseInt(localStorage.getItem('result'));
+            result = result +1;
+            localStorage.setItem('result', result); 
+           
+        } 
+        
+        window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
+       
                 r ++;
                 localStorage.setItem('r',r);
-            }
-        }
-        if (r == answered.size) {
+        
+
+                if(r == answered.size) {
             document.cookie = 'FriendId='+ans.get('FriendId');
             document.cookie = 'UserId='+ans.get('User_ID');
             document.cookie = 'result='+ localStorage.getItem('result');
             document.cookie = 'r='+r;
             document.cookie = 'upload='+'smth';
-            
-        
-        }else {
-        
-        window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True'; 
+           // window.location.href='index.php';
         }
-        if (<?=$qn;?> == <?=$maxq;?>){
-        window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=1&Answer=True';
+    
+
+
         }
-        break   
+// end ofsave the answer to the map    
+
+
+ 
+        
+
+    while (answered.get('Q<?=$qn;?>')=='done' && r <= answered.size ) {
+      
+        if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> <= <?=$maxq;?>) {
+            window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
+        }
+        if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> > <?=$maxq;?>) {
+            window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=1&Answer=True';
+        }
         
     }
     
@@ -207,7 +212,7 @@ function saveChange(clicked_id) {
 
             
     
-
+    // adding info to map nav
     for (i=1; i <= <?=$maxq;?>;i++) {
         //console.log('hehe');
         map = new Map(JSON.parse(localStorage.Answered));
@@ -219,7 +224,7 @@ function saveChange(clicked_id) {
     }
     }
 
-
+// function of movement
     function move(){
 
       f = <? echo $_COOKIE["f"];?>;
@@ -266,16 +271,17 @@ function saveChange(clicked_id) {
                //echo "<script>console.log($fid)</script>";
                //echo "<script>console.log($uid)</script>";
                //echo "<script>console.log($result)</script>";
-                if (!empty($_COOKIE['upload'])) {
+                if ($_COOKIE['upload']=='smth' ) {
                     $insert = mysqli_query($connect,"INSERT INTO `results`( `userid`, `Qid`, `fid`, `result`) VALUES ('$uid','$n','$fid','$result')");
                     echo "<script>  
-                        window.location.href='index.php';
                         window.localStorage.removeItem('r');
                         window.localStorage.removeItem('Answered');
                         window.localStorage.removeItem('NewAnswer');
                         document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
                         document.cookie = 'r=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-                        window.localStorage.removeItem('result'); </script>";
+                        window.localStorage.removeItem('result'); 
+                        window.location.href='index.php';
+                        </script>";
                 }
             ?>
 <?

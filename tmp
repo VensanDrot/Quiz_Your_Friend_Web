@@ -28,3 +28,12 @@ $user = $_GET['User'];
                     localStorage.setItem('NewAnswer', fss);
                 </script>    
               <? }
+
+
+
+else {
+    window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
+    result = parseInt(localStorage.getItem('result'));
+    result = result ;
+    localStorage.setItem('result', result); 
+}
