@@ -33,12 +33,14 @@ $Qid= $_GET['Qid'];
 //       </script>";?>
 //   }
 
+localStorage.setItem('Link<?=$_GET['Qid'];?>',link);
+
 </script>
 
 <?
 
 if (empty($_COOKIE['code']) && empty($_COOKIE['Link'])) {
-   require_once("public/Functions/smth.php");
+  
   
 }
 else {
@@ -57,7 +59,7 @@ else {
 <div class="container" >    
         <?
         $us = $_COOKIE['UserId'];
-         $q = mysqli_query($connect,"SELECT MAX(id) FROM `Results` WHERE `userid` = '$us'");
+         $q = mysqli_query($connect,"SELECT MAX(id) FROM `Results` WHERE `userid` = '$us' AND `Qid`='$Qid'");
          $r = mysqli_fetch_assoc($q);
          $mid = $r['MAX(id)'];
          echo "<script>console.log('$mid')</script>";
@@ -74,7 +76,7 @@ else {
                             </li>
                             <?if(!empty($mid)) {
                                 for($i=1; $i<=$mid;$i++){
-                                    $q = mysqli_query($connect,"SELECT * FROM `Results` WHERE `userid` = '$us' AND `id` = '$i'");
+                                    $q = mysqli_query($connect,"SELECT * FROM `Results` WHERE `userid` = '$us' AND `id` = '$i' AND `Qid`='$Qid'");
                                      $r = mysqli_fetch_assoc($q);
                                      $m = $r['fid'];
                                      echo "<script>console.log('$mid')</script>";
@@ -83,7 +85,7 @@ else {
                                      
                                 ?>
                                 
-                                <li >
+                                <li style="<?if(empty($r1['name'])) {echo "display:none;";}?>">
                                 
                                 <div  style="display: flex; justify-content:space-around; font-size:20px;"><p>Name: <?=$r1['name'];?></p><p>Result: <?=$r['result'];?></p></div>
                             </li>
@@ -102,7 +104,7 @@ else {
                        <p>They will try to guess your answers &amp; get a score out of 10.</p>
                    <div class="link_share" id="linkDiv">
                    <script>
-            document.write(link);
+            document.write(localStorage.getItem('Link<?=$_GET['Qid'];?>'));
             </script>
                    </div>
             <div class="link-copied">Link Copied</div>

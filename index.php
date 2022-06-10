@@ -48,4 +48,8 @@
         document.cookie = "f=0";
     </script>
  
+ 
+ <script>
+    localStorage.removeItem('Newmap')
+    </script>
 <?require_once("footer.php");?>
