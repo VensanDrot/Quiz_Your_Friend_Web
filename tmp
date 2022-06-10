@@ -1,66 +1,10 @@
-$user = $_GET['User'];
-            $check = $_GET['Answer'];
-            $Qid = $_GET['Qid'];
-              ?>
-              <script type="text/javascript">
-           <?$friendid=$_COOKIE['FriendId'];?>
-           var answer = new Map([
-            ["Quiz_Id", "<?=$Qid;?>"],
-            ["User_ID", "<?=$user;?>"],
-            ]);
-           friendid = localStorage.getItem('FriendId');
-            answer.set("FriendId", <?=$_COOKIE['FriendId'];?>);
-            
-            var fss = JSON.stringify(Array.from(answer.entries()));
-            localStorage.setItem('NewAnswer', fss);
-        </script>
-              <?
-              $q = mysqli_query($connect,"SELECT MAX(qid) FROM `$Qid`");
-              $row = mysqli_fetch_assoc($q);
-              $max=$row["MAX(qid)"];
-              for ($i=1;$i<=$max;$i++) {
-                $temp = $_GET['Q'.$i]; ?>    
-                <script>
-                    answer = new Map(JSON.parse(localStorage.NewAnswer));
-                    answer.set('Q<?=$i;?>', '<?=$temp;?>');
-                    console.log('hehe');
-                    var fss = JSON.stringify(Array.from(answer.entries()));
-                    localStorage.setItem('NewAnswer', fss);
-                </script>    
-              <? }
 
-
-
-else {
-    window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
-    result = parseInt(localStorage.getItem('result'));
-    result = result ;
-    localStorage.setItem('result', result); 
-}
-<div class="
-
-
-
-"></div>
-
-
-
-if (<?=$qn+1;?> <= <?=$maxq;?>){
-    window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
-}
-else{
-    window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=1&Answer=True';
-}
-
-
-
-
-function m() {
-    if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> <= <?=$maxq;?>) {
-          window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>&Answer=True';
-      }
-      if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> > <?=$maxq;?>) {
-          window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=1&Answer=True';
-      }
-      
-}
+    <?
+    
+    if(!empty($_COOKIE['Link']) && !empty($_COOKIE['code']) && !empty($_COOKIE['go'])) {
+        $code = $_COOKIE['code'];
+        $link = $_COOKIE['Link'];
+        $ins= mysqli_query($connect,"INSERT INTO `Url`(`url`, `short`) VALUES ('$link','$code')");
+       // echo "<script>console.log('noway');</script>";
+    }
+    ?>

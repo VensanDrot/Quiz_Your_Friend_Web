@@ -1,56 +1,64 @@
 <?require_once("header.php");
+$Qid= $_GET['Qid'];
 ?>
 
 <script>
-         //console.log(window.location.host);
-        //console.log(window.location.pathname );
-        //console.log(window.location.search );
-        map = new Map(JSON.parse(localStorage.Newmap));
-        
-        //console.log(map.get("Q1"));
-        if (localStorage.getItem('Link'+map.get("Quiz_Id")) == null){
-    link='bridge.php?'+'Answer=true'+'&User='+localStorage.getItem('UserId')+'&Qid='+map.get("Quiz_Id");
+   
+ // if (localStorage.getItem('Link<?=$_GET['Qid'];?>') === null){
+    map = new Map(JSON.parse(localStorage.Newmap)); 
+
+    link=window.location.host+'/bridge.php?'+'Answer=true'+'&User='+localStorage.getItem('UserId')+'&Qid=<?=$_GET['Qid'];?>';
     for (var i = 1; i <= map.size-2; i++) {
         link+= '&Q'+i+'='+map.get('Q'+i);
     }
-    document.cookie = "go="+'go';
     document.cookie = "Link="+link;
-    document.cookie = "tem="+localStorage.getItem('UserId');
-    document.cookie = "tem1="+map.get("Quiz_Id");
     code = localStorage.getItem('UserId') + 'BT' + map.get("Quiz_Id");
     document.cookie = "code="+code;
+    
+ 
+        link = '/bridge.php?Code='+code;
+        
+        
+   
+    
+      
+    
+  
+ // }
+// if (localStorage.getItem('Link<?=$_GET['Qid'];?>') !== null){
+//    link =  localStorage.getItem('Link<?=$_GET['Qid'];?>');
+//       <?
+//       $link = "<script>
+//       document.write(link);
+//       </script>";?>
+//   }
 
-
-    <?
-
-    if(!empty($_COOKIE['Link']) && !empty($_COOKIE['code']) && !empty($_COOKIE['go']) ) {
-        $code = $_COOKIE['code'];
-        $link = $_COOKIE['Link'];
-        $ins= mysqli_query($connect,"INSERT INTO `Url`(`url`, `short`) VALUES ('$link','$code')");
-    }
-    ?>
-     link=window.location.host+'/bridge.php?Code='+code;
-    document.cookie = "Link="+link;
-    localStorage.setItem('Link'+map.get("Quiz_Id"), link);
-    document.cookie = 'go=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-    document.cookie = 'tem=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-    document.cookie = 'tem1=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-
-}
-else {
-    document.cookie = "Link="+getItem('Link<?=$_GET['Qid'];?>');
-
-}
 </script>
 
-<div class="container">
+<?
+
+if (empty($_COOKIE['code']) && empty($_COOKIE['Link'])) {
+   require_once("public/Functions/smth.php");
+  
+}
+else {
+    $cc = $_COOKIE['code'];
+    $cc1 = $_COOKIE['Link'];
+    $ins= mysqli_query($connect,"INSERT INTO `Url`(`url`, `short`) VALUES ('$cc1','$cc')");
+}
+?> 
+
+
+<div class="container" >
        <div class="enter_quiz reddy">    
     <!-- <br/>  -->
                    <h1 class="redeed">Your Quiz is Ready!</h1>
                    <p>Share your quiz-link with your friends!</p>
                        <p>They will try to guess your answers &amp; get a score out of 10.</p>
                    <div class="link_share" id="linkDiv">
-                    <?=$_COOKIE['Link'];?>
+                   <script>
+            document.write(link);
+            </script>
                    </div>
             <div class="link-copied">Link Copied</div>
            <div class="clearfix"></div>
@@ -181,4 +189,9 @@ else {
         
   
     </div>
+
+    <script>
+    document.cookie = 'Link=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = 'code=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    </script>
 <?require_once("footer.php");?>

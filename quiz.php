@@ -36,7 +36,6 @@ if (empty($_GET['Answer'])){
     }
 
 
-
     var g = 1;
     // map creating
     var map = new Map([
