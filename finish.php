@@ -4,10 +4,16 @@ $Qid= $_GET['Qid'];
 
 <script>
    
+    if ( localStorage.getItem('Link<?=$Qid;?>') !== null){
+        document.cookie = "Set="+'True';
+        document.cookie = "UserId=" +localStorage.getItem('UserId')
+        //window.location.href='finish.php?Qid=<?=$Qid;?>';
+    } 
+
  // if (localStorage.getItem('Link<?=$_GET['Qid'];?>') === null){
     map = new Map(JSON.parse(localStorage.Newmap)); 
 
-    link=window.location.host+'/bridge.php?'+'Answer=true'+'&User='+localStorage.getItem('UserId')+'&Qid=<?=$_GET['Qid'];?>';
+    link='/bridge.php?'+'Answer=true'+'&User='+localStorage.getItem('UserId')+'&Qid=<?=$_GET['Qid'];?>';
     for (var i = 1; i <= map.size-2; i++) {
         link+= '&Q'+i+'='+map.get('Q'+i);
     }
@@ -16,8 +22,7 @@ $Qid= $_GET['Qid'];
     document.cookie = "code="+code;
     
  
-        link = '/bridge.php?Code='+code;
-        
+        link = window.location.host+'/bridge.php?Code='+code;
         
    
     
@@ -39,11 +44,12 @@ localStorage.setItem('Link<?=$_GET['Qid'];?>',link);
 
 <?
 
-if (empty($_COOKIE['code']) && empty($_COOKIE['Link'])) {
+if (empty($_COOKIE['code']) && empty($_COOKIE['Link']) && $_COOKIE['Set'] !== 'True') {
   
+    require_once('public/Functions/smth.php');
   
 }
-else {
+else if(!empty($_COOKIE['code']) && !empty($_COOKIE['Link']) && $_COOKIE['Set'] !== 'True') {
     $cc = $_COOKIE['code'];
     $cc1 = $_COOKIE['Link'];
     $q = mysqli_query($connect,"SELECT `id` FROM `Url` WHERE `short` = '$cc'");
@@ -135,6 +141,7 @@ else {
 
     <script>
     document.cookie = 'Link=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = 'Set=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
     document.cookie = 'code=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
     </script>
 <?require_once("footer.php");?>

@@ -3,7 +3,7 @@
  
     if (!empty($_GET['Code'])) {
         $co=$_GET['Code'];
-        $q = mysqli_query($connect,"SELECT * FROM `Url`");
+        $q = mysqli_query($connect,"SELECT * FROM `Url` WHERE `short` = '$co'");
         $r = mysqli_fetch_assoc($q);
         $newurl = $r['url'];
         echo "

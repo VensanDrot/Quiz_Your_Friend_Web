@@ -1,6 +1,19 @@
 <? require_once("header.php");
     
 ?>
+ <script>
+    localStorage.removeItem('Newmap')
+    localStorage.removeItem('Answered')
+    localStorage.removeItem('NewAnswer')
+    localStorage.removeItem('result')
+    localStorage.removeItem('r')
+    window.localStorage.removeItem('r');
+    window.localStorage.removeItem('Answered');
+    window.localStorage.removeItem('NewAnswer');
+    document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = 'r=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = 'result=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    </script>
 
 
     <div class="main_sec middle_conatainer">
@@ -49,7 +62,5 @@
     </script>
  
  
- <script>
-    localStorage.removeItem('Newmap')
-    </script>
+
 <?require_once("footer.php");?>

@@ -1,10 +1,47 @@
 
-    <?
+
     
-    if(!empty($_COOKIE['Link']) && !empty($_COOKIE['code']) && !empty($_COOKIE['go'])) {
-        $code = $_COOKIE['code'];
-        $link = $_COOKIE['Link'];
-        $ins= mysqli_query($connect,"INSERT INTO `Url`(`url`, `short`) VALUES ('$link','$code')");
-       // echo "<script>console.log('noway');</script>";
+
+   
+
+        console.log(map.size);
+
+        if(map.size == <?=$maxq+2?>){
+            localStorage.setItem("<?echo $n;?>", "<?echo $_COOKIE['UserId'];?>");
+            window.location.href='finish.php?Qid=<?=$n;?>';
+        }
+    
+        function move(){
+
+          f = <? echo $_COOKIE["f"];?>;
+        
+          if (<?echo $qn-1?> == 0 && <? echo $_COOKIE["f"];?>==1) {
+                  f=0;
+                  console.log("up");
+                  document.cookie = "f="+f;
+                  console.log("<? echo $_COOKIE["f"];?>");
+                  }
+              
+              if (<?echo $qn?> == <?echo $maxq?> && <? echo $_COOKIE["f"];?>==0) {
+                      f=1;
+                      console.log("down");
+                      document.cookie = "f="+f;
+                      console.log("<? echo $_COOKIE["f"];?>");
+                  }
+              
+              
+              while(<?echo $qn?> < <?echo $maxq?> && f==0 ){
+            
+                  window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>';
+                  break;
+            
+               }
+               while(<?echo $qn?> > 1 && f==1){
+            
+                  window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn-1;?>';
+                 break;
+            
+               }
+               console.log("<? echo $_COOKIE["f"];?>");
+
     }
-    ?>

@@ -29,13 +29,11 @@
 if (empty($_GET['Answer'])){
 
     ?>
-
     <script type="text/javascript">
+    console.log('hehe');
     if(localStorage.getItem('<?echo $n;?>') !== null){
         window.location.href='finish.php?Qid=<?=$n;?>';
     }
-
-
     var g = 1;
     // map creating
     var map = new Map([
@@ -45,11 +43,12 @@ if (empty($_GET['Answer'])){
     // pars to local storage
     map = new Map(JSON.parse(localStorage.Newmap));
 
-    //save the answer to the map
-    function saveChange(clicked_id) {
-        var res= clicked_id;
+     //save the answer to the map
+     function saveChange(clicked_id) {
+        
 
         //console.log("onit");
+        var res= clicked_id;
         map.set("Q<?echo $qn;?>", res);
         var fss = JSON.stringify(Array.from(map.entries()));
         localStorage.setItem('Newmap', fss);
@@ -65,7 +64,7 @@ if (empty($_GET['Answer'])){
     
 
         }
-
+        
         console.log(map.size);
 
         if(map.size == <?=$maxq+2?>){
@@ -73,40 +72,41 @@ if (empty($_GET['Answer'])){
             window.location.href='finish.php?Qid=<?=$n;?>';
         }
     
+
         function move(){
 
-          f = <? echo $_COOKIE["f"];?>;
-        
-          if (<?echo $qn-1?> == 0 && <? echo $_COOKIE["f"];?>==1) {
-                  f=0;
-                  console.log("up");
-                  document.cookie = "f="+f;
-                  console.log("<? echo $_COOKIE["f"];?>");
-                  }
-              
-              if (<?echo $qn?> == <?echo $maxq?> && <? echo $_COOKIE["f"];?>==0) {
-                      f=1;
-                      console.log("down");
-                      document.cookie = "f="+f;
-                      console.log("<? echo $_COOKIE["f"];?>");
-                  }
-              
-              
-              while(<?echo $qn?> < <?echo $maxq?> && f==0 ){
-            
-                  window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>';
-                  break;
-            
-               }
-               while(<?echo $qn?> > 1 && f==1){
-            
-                  window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn-1;?>';
-                 break;
-            
-               }
-               console.log("<? echo $_COOKIE["f"];?>");
+    f = <? echo $_COOKIE["f"];?>;   
 
-    }
+    if (<?echo $qn-1?> == 0 && <? echo $_COOKIE["f"];?>==1) {
+            f=0;
+            console.log("up");
+            document.cookie = "f="+f;
+            console.log("<? echo $_COOKIE["f"];?>");
+            }
+        
+        if (<?echo $qn?> == <?echo $maxq?> && <? echo $_COOKIE["f"];?>==0) {
+                f=1;
+                console.log("down");
+                document.cookie = "f="+f;
+                console.log("<? echo $_COOKIE["f"];?>");
+            }
+        
+        
+        while(<?echo $qn?> < <?echo $maxq?> && f==0 ){
+        
+            window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn+1;?>';
+            break;
+        
+         }
+         while(<?echo $qn?> > 1 && f==1){
+        
+            window.location.href='quiz.php?Qid=<?echo $n;?>&Qn=<?echo $qn-1;?>';
+           break;
+        
+         }
+         console.log("<? echo $_COOKIE["f"];?>");
+
+}
 
     </script>
 
@@ -119,11 +119,6 @@ if (!empty($_GET['Answer'])){
 ?>
 
 <script type="text/javascript">
-//if(localStorage.getItem('<?echo $n;?>') !== null){
-//    window.location.href='finish.php?Qid=<?echo $n;?>';
-//}
-
-
 
 
 
@@ -187,11 +182,12 @@ if (localStorage.getItem('result') === null) {
 
                 if(r == answered.size-1) {
                 document.cookie = 'FriendId='+ans.get('FriendId');
-                document.cookie = 'UserId='+ans.get('User_ID');
+                document.cookie = 'User_Id='+ans.get('User_ID');
                 document.cookie = 'result='+ localStorage.getItem('result');
                 document.cookie = 'r='+r;
                 document.cookie = 'upload='+'smth';
-           // window.location.href='index.php';
+                localStorage.setItem('F<?=$n;?>','<?=$n;?>');
+                
         }
     
 
@@ -261,12 +257,22 @@ if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> <= <?=$maxq;?> && r !=answ
 
 }
 
+if(localStorage.getItem('F<?echo $n;?>') !== null){
+    window.location.href='friend.php?S=true';
+    window.localStorage.removeItem('r');
+    window.localStorage.removeItem('Answered');
+    window.localStorage.removeItem('NewAnswer');
+    document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = 'r=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    window.localStorage.removeItem('result');
+}
+
 </script>
 
 
 <?
                $fid = $_COOKIE['FriendId'];
-               $uid = $_COOKIE['UserId'];
+               $uid = $_COOKIE['User_Id'];
                $result =  $_COOKIE['result'];
                
                //echo "<script>console.log($fid)</script>";
@@ -280,8 +286,9 @@ if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> <= <?=$maxq;?> && r !=answ
                         window.localStorage.removeItem('NewAnswer');
                         document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
                         document.cookie = 'r=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-                        window.localStorage.removeItem('result'); 
-                        window.location.href='index.php';
+                        window.localStorage.removeItem('result');
+                        window.location.href='friend.php?S=true';
+                       // window.location.href='index.php';
                         </script>";
                 }
             ?>
