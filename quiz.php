@@ -120,7 +120,15 @@ if (!empty($_GET['Answer'])){
 
 <script type="text/javascript">
 
-
+if(localStorage.getItem('F<?echo $n;?>') !== null){
+    window.location.href='friend.php?S=true';
+    window.localStorage.removeItem('r');
+    window.localStorage.removeItem('Answered');
+    window.localStorage.removeItem('NewAnswer');
+    document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = 'r=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    window.localStorage.removeItem('result');
+}
 
 
 result = 0;
@@ -257,15 +265,7 @@ if (answered.get('Q<?=$qn;?>')=='done' && <?=$qn+1;?> <= <?=$maxq;?> && r !=answ
 
 }
 
-if(localStorage.getItem('F<?echo $n;?>') !== null){
-    window.location.href='friend.php?S=true';
-    window.localStorage.removeItem('r');
-    window.localStorage.removeItem('Answered');
-    window.localStorage.removeItem('NewAnswer');
-    document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-    document.cookie = 'r=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-    window.localStorage.removeItem('result');
-}
+
 
 </script>
 
