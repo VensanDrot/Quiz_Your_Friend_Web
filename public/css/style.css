@@ -1342,8 +1342,7 @@ a.mover {
     height: 420px!important;
 }
 
-@media (min-width: 768px) {
-}
+@media (min-width: 768px) {}
 
 @media(max-width:991px) {
     .ques_pt_sec li {
@@ -3993,3 +3992,6 @@ a:hover {
         width: 100%;
     }
 }
+
+
+/* dsadasdasdasd */

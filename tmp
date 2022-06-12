@@ -45,3 +45,33 @@
                console.log("<? echo $_COOKIE["f"];?>");
 
     }
+
+
+    if(r == answer.size-1) {
+                document.cookie = 'FriendId='+answer.get('FriendId');
+                document.cookie = 'User_Id='+answer.get('User_ID');
+                document.cookie = 'result='+ result;
+                document.cookie = 'r='+r;
+                document.cookie = 'upload='+'smth';
+                localStorage.setItem('F<?=$n;?>','<?=$n;?>');
+                
+
+
+        }
+
+
+
+        if (answer.get('Q'+name)!==id && map.get("Q"+name) !== null ) {
+                result--;
+                console.log(result);
+            }
+
+      
+            if (answer.get('Q'+name)===id && map.get("Q"+name) !== id ) {
+                result++;
+                console.log(result);
+            }
+            if (answer.get('Q'+name)!==id && map.get("Q"+name) !==  id ) {
+                result--;
+                console.log(result);
+            }

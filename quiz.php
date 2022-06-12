@@ -128,8 +128,8 @@
         ?>
 
         <script type="text/javascript">
-
-        if(localStorage.getItem('F<?echo $n;?>') !== null){
+        answer = new Map(JSON.parse(localStorage.NewAnswer));
+        if(localStorage.getItem('F<?echo $n;?>') == answer.get('User_ID')){
             window.location.href='friend.php?S=true';
             window.localStorage.removeItem('r');
             window.localStorage.removeItem('Answered');
@@ -200,10 +200,12 @@
                         if(r == answered.size-1) {
                         document.cookie = 'FriendId='+ans.get('FriendId');
                         document.cookie = 'User_Id='+ans.get('User_ID');
+                        localStorage.setItem('F<?=$n;?>',ans.get('User_ID'));
                         document.cookie = 'result='+ localStorage.getItem('result');
                         document.cookie = 'r='+r;
                         document.cookie = 'upload='+'smth';
-                        localStorage.setItem('F<?=$n;?>','<?=$n;?>');
+                        
+                    
                         
                 }
             
@@ -308,8 +310,171 @@
 // End of every thing for usual type
 
 
-// Start of every thing for usual type
+// Start of every thing for this||that type
+    if (empty($_GET['Answer']) && $type == '1') {
+        ?>
+        
+        <script>
+        if(localStorage.getItem('<?echo $n;?>') !== null){
+            window.location.href='finish.php?Qid=<?=$n;?>';
+        }
+        var g = 1;
+        // map creating
+        var map = new Map([
+        ["Quiz_Id", "<? echo $n ?>"],
+        ["User_ID", "<? echo $_COOKIE['UserId'];?>"],
+        ]);
+        // pars to local storage
+        map = new Map(JSON.parse(localStorage.Newmap));
 
+        function thissave(id) {
+
+            const t = document.getElementById(id);
+            const di = document.getElementById('e'+id);   
+            const to = document.getElementById('e'+di.getAttribute('name'));
+            name = t.getAttribute('name');
+            
+            
+            //console.log(di.getAttribute('name'));
+            di.style='display:block'; 
+            to.style='display:none';   
+           // console.log(t.getAttribute('name'));
+            map.set("Q"+name, id );
+            var fss = JSON.stringify(Array.from(map.entries()));
+            localStorage.setItem('Newmap', fss);
+            
+            if(map.size == <?=$maxq+2?>){
+                localStorage.setItem("<?echo $n;?>", "<?echo $_COOKIE['UserId'];?>");
+                window.location.href='finish.php?Qid=<?=$n;?>';
+            }
+
+        }
+
+        </script>
+        
+    <?
+    }
+
+    if (!empty($_GET['Answer']) && $type == '1') {
+        ?>
+        
+        <script>
+       
+            // pars to local storage
+           
+        answer = new Map(JSON.parse(localStorage.NewAnswer));  
+        if(localStorage.getItem('F<?echo $n;?>') === answer.get('User_ID')){
+            //console.log('ass');
+            window.location.href='friend.php?S=true';
+            //window.localStorage.removeItem('r');
+            window.localStorage.removeItem('Answered');
+            window.localStorage.removeItem('NewAnswer');
+            document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+            //document.cookie = 'r=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+            window.localStorage.removeItem('result');
+        }
+      
+       
+        
+        result = 0;
+        if (localStorage.getItem('result') === null) {
+                localStorage.setItem('result', result);
+        }
+        
+        var map = new Map([
+            ["Quiz_Answers", "Done"],
+            ]);
+
+
+
+
+        function thissave(id) {
+            result = localStorage.getItem('result');
+            answer = new Map(JSON.parse(localStorage.NewAnswer));  
+            const t = document.getElementById(id);
+            const di = document.getElementById('e'+id);   
+            const to = document.getElementById('e'+di.getAttribute('name'));
+            name = t.getAttribute('name');
+            
+            if (answer.get('Q'+name) == id && map.get('Q'+name)==null ) {
+                //console.log('right');
+                result++;
+                localStorage.setItem('result', result);
+                map.set('Q'+name, id);
+                //console.log(result);
+            }
+            if (answer.get('Q'+name) !== id && map.get('Q'+name)==null ) {
+                //console.log('wrong');
+                map.set('Q'+name, id);
+                //console.log(result);
+            }
+            if (answer.get('Q'+name) == id && map.get('Q'+name)!==id ) {
+                //console.log('here +');
+                result ++;
+                localStorage.setItem('result', result);
+                map.set('Q'+name, id);
+                //console.log(result);
+            }
+            if (answer.get('Q'+name) !== id && map.get('Q'+name)!==id ) {
+                //console.log('here -');
+                result--;
+                localStorage.setItem('result', result);
+                map.set('Q'+name, id);
+                //console.log(result);
+            }
+
+            console.log(map);
+            console.log(map.size);
+
+            if (map.size-1 === <?=$maxq;?>) {
+                document.cookie = 'FriendId='+answer.get('FriendId');
+                document.cookie = 'User_Id='+answer.get('User_ID');
+                document.cookie = 'result='+ localStorage.getItem('result');
+                localStorage.setItem('F<?=$n;?>', answer.get('User_ID'));
+                document.cookie = 'upload='+'smth';
+                location.reload();
+            }
+
+
+            
+           //console.log(id);
+            di.style='display:block'; 
+            to.style='display:none';   
+            
+          
+            
+
+        }
+
+
+        
+
+
+
+        </script>
+         <?
+                       $fid = $_COOKIE['FriendId'];
+                       $uid = $_COOKIE['User_Id'];
+                       $result =  $_COOKIE['result'];
+
+                       //echo "<script>console.log($fid)</script>";
+                       //echo "<script>console.log($uid)</script>";
+                       //echo "<script>console.log($result)</script>";
+                        if ($_COOKIE['upload']=='smth' ) {
+                          $insert = mysqli_query($connect,"INSERT INTO `results`( `userid`, `Qid`, `fid`, `result`) VALUES ('$uid','$n','$fid','$result')");
+                            echo "<script> 
+                                window.location.href='friend.php?S=true'; 
+                                window.localStorage.removeItem('Answered');
+                                window.localStorage.removeItem('NewAnswer');
+                                window.localStorage.removeItem('r');
+                                window.localStorage.removeItem('result');
+                                document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+                                </script>";
+                        }
+            ?>
+        
+    <?
+    }
 // End of every thing for usual type
 ?>
 
@@ -392,6 +557,82 @@
 <!-- End of Usual Quiz Type -->   
     
     <?if($type == '1') {?>
+        <div class="middle_area menu_sec ques_page ng-scope" id="quizDiv" ng-controller="QuizController" ng-init="showAllQuestion(0,0);enableOnePageOptionSelection(1);enableMaxScore();enableUseMeta();">
+            <div class="top_heading inst_head">
+                <h2 class="text-center"> This or That game!</h2>
+            </div>
+            <?
+            for($i=1; $i <= $maxq; $i++) {
+                
+                $q = mysqli_query($connect,"SELECT MAX(id) FROM `$n` WHERE `qid`='$i'");
+                $max = mysqli_fetch_assoc($q);
+                $max=intval($max['MAX(id)']);
+                // echo $max.'   ';
+                $q = mysqli_query($connect,"SELECT MIN(id) FROM `$n` WHERE `qid`='$i'");
+                $min = mysqli_fetch_assoc($q);
+                $min = intval($min['MIN(id)']);
+                // echo $min.'   ';
+
+                $q = mysqli_query($connect,"SELECT * FROM `$n` WHERE `qid`=$i AND `id` =$min ");
+                $ans1 = mysqli_fetch_assoc($q);
+                $ans1 = $ans1['answer'];
+
+                $q = mysqli_query($connect,"SELECT * FROM `$n` WHERE `qid`=$i AND `id` =$max ");
+                $ans = mysqli_fetch_assoc($q);
+                $ans = $ans['answer'];
+               
+                
+              
+                ?>
+            <div class="question-div ques_row user_side user_question_page ng-scope bg_yell" >
+                    
+
+
+                    <span class="question_number count_no ng-binding textarea-form-user_friend textarea-form-user-unselect"><?=$i;?>.</span>
+                    <span class="or_sec">or</span>
+                            
+                    <!-- ngRepeat: option in question.options -->
+                    <div  class="question-div question_option color0" name='<?=$i;?>' id=<?=$min?> onclick ="thissave(this.id)">
+                       
+                                <div class="edit " id='e<?=$min?>' name='<?=$max;?>' >
+                                    <span class="edit_icon" >
+                                         <i class="fa fa-check" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                        <div class="input-group card_body ques1 ng-binding">
+                        <!--<div class="input-group card_body ques1" ng-class="question.editing?'active':''">-->
+                                <!--<div  class="cricle_edit  " ng-class="question.editing?'lieditable':''">-->
+                                <div class="cricle_edit" >
+                                    <textarea ng-readonly="question.editing?false:true" id="" maxlength="56" spellcheck="false" rows="1" cols="60"  ng-model="option.content" class="ng-pristine ng-valid" readonly="readonly"><?=$ans1;?></textarea>    
+                                </div>                              
+                        </div>
+                        </div>
+                        <!-- end ngRepeat: option in question.options -->
+                        <div class="question-div question_option color1" name='<?=$i;?>' id=<?=$max?>  onclick ="thissave(this.id)">
+                       
+                                <div class="edit " id='e<?=$max?>' name='<?=$min;?>'>
+                                    <span class="edit_icon">
+                                         <i class="fa fa-check" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                        <div class="input-group card_body ques1 ng-binding" >
+                        <!--<div class="input-group card_body ques1" ng-class="question.editing?'active':''">-->
+                                <!--<div  class="cricle_edit  " ng-class="question.editing?'lieditable':''">-->
+                               
+                                <div class="cricle_edit " >
+                                    <textarea ng-readonly="question.editing?false:true" id="" maxlength="56" spellcheck="false" rows="1" cols="60"  ng-model="option.content" class="ng-pristine ng-valid" readonly="readonly"><?=$ans;?></textarea>    
+                                </div> 
+                                                             
+                        </div>
+                        </div><!-- end ngRepeat: option in question.options -->
+            </div>
+            <?
+    
+        }?>
+            
+
+            
+        </div>
     <?}?>  
 
 </div>

@@ -10,6 +10,7 @@ require_once("public/Functions/dbcon.php");?>
     <link href="public/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="public/css/common-spinner.css" rel="stylesheet" type="text/css" />
     <link href="public/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="public/css/thisthat.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="public/css/quiz.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
