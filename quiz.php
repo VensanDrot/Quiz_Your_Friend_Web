@@ -32,6 +32,8 @@
     $que= mysqli_fetch_assoc($q);
     $que = $que['question'];
 
+    $class = array("bg_org_tran","bg_pink_tran","bg_blue_tran","bg_ping_tran");
+
 //end of variables
 
 // Start of every thing for usual type
@@ -130,7 +132,8 @@
         <script type="text/javascript">
         answer = new Map(JSON.parse(localStorage.NewAnswer));
         if(localStorage.getItem('F<?echo $n;?>') == answer.get('User_ID')){
-            window.location.href='friend.php?S=true';
+            ans = new Map(JSON.parse(localStorage.NewAnswer));
+            window.location.href='friend.php?S=true&Qid=<?echo $n;?>&User_Id='+ans.get('User_ID')+"&Fid="+ans.get('FriendId');
             window.localStorage.removeItem('r');
             window.localStorage.removeItem('Answered');
             window.localStorage.removeItem('NewAnswer');
@@ -289,17 +292,19 @@
                        //echo "<script>console.log($fid)</script>";
                        //echo "<script>console.log($uid)</script>";
                        //echo "<script>console.log($result)</script>";
+                       // "friend.php?S=true&Qid=$n&User_Id=+ans.get('User_ID')+&Fid=+ans.get('FriendId')"
                         if ($_COOKIE['upload']=='smth' ) {
                           $insert = mysqli_query($connect,"INSERT INTO `results`( `userid`, `Qid`, `fid`, `result`) VALUES ('$uid','$n','$fid','$result')");
                             echo "<script>  
-                                window.localStorage.removeItem('r');
-                                window.localStorage.removeItem('Answered');
-                                window.localStorage.removeItem('NewAnswer');
+                                ans = new Map(JSON.parse(localStorage.NewAnswer));
+                                window.location.href='friend.php?S=true&Qid=$n&User_Id='+ans.get('User_ID')+'&Fid='+ans.get('FriendId');
                                 document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
                                 document.cookie = 'r=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
                                 window.localStorage.removeItem('result');
-                                window.location.href='friend.php?S=true';
                                // window.location.href='index.php';
+                                window.localStorage.removeItem('r');
+                                window.localStorage.removeItem('Answered');
+                                window.localStorage.removeItem('NewAnswer');
                                 </script>";
                         }
                     ?>
@@ -365,7 +370,7 @@
         answer = new Map(JSON.parse(localStorage.NewAnswer));  
         if(localStorage.getItem('F<?echo $n;?>') === answer.get('User_ID')){
             //console.log('ass');
-            window.location.href='friend.php?S=true';
+            window.location.href='friend.php?S=true&Qid=<?echo $n;?>&User_Id='+answer.get('User_ID')+"&Fid="+answer.get('FriendId');
             //window.localStorage.removeItem('r');
             window.localStorage.removeItem('Answered');
             window.localStorage.removeItem('NewAnswer');
@@ -463,7 +468,8 @@
                         if ($_COOKIE['upload']=='smth' ) {
                           $insert = mysqli_query($connect,"INSERT INTO `results`( `userid`, `Qid`, `fid`, `result`) VALUES ('$uid','$n','$fid','$result')");
                             echo "<script> 
-                                window.location.href='friend.php?S=true'; 
+                                answer = new Map(JSON.parse(localStorage.NewAnswer));  
+                                window.location.href='friend.php?S=true&Qid=$n&User_Id='+answer.get('User_ID')+'&Fid='+answer.get('FriendId'); 
                                 window.localStorage.removeItem('Answered');
                                 window.localStorage.removeItem('NewAnswer');
                                 window.localStorage.removeItem('r');
@@ -476,12 +482,17 @@
     <?
     }
 // End of every thing for usual type
+
+// Start of every thing for everhaveI type 
+
+// End of every thing for everhaveI type
+
 ?>
 
 
 
 
- <div class="container ">
+<div class="container  <?if($type == 2) {echo "main_container";}?>" >
 
 <!-- Start of Usual Quiz Type -->  
     <?if($type == '0') {?>
@@ -556,6 +567,8 @@
     
 <!-- End of Usual Quiz Type -->   
     
+
+<!-- Start of This||That Quiz Type -->
     <?if($type == '1') {?>
         <div class="middle_area menu_sec ques_page ng-scope" id="quizDiv" ng-controller="QuizController" ng-init="showAllQuestion(0,0);enableOnePageOptionSelection(1);enableMaxScore();enableUseMeta();">
             <div class="top_heading inst_head">
@@ -634,6 +647,69 @@
             
         </div>
     <?}?>  
+<!-- End of This||That Quiz Type -->
+
+<!-- Start of everhaveI Quiz Type -->
+    <?if($type == '2') {?>
+
+        <div class="main_sec middle_conatainer">
+        
+          <div class="middle_area middle_conatainer ng-scope" id="quizDiv" ng-controller="QuizController" ng-init="showAllQuestion(10,1);enableSaveOptionText(0);">
+                <div class="top_heading">
+                  <h2>Personalised Edition</h2>
+                </div>
+            
+
+                
+                <div class="middle_div">
+                                       
+                <?$r=0;
+                 for($i=1; $i <= $maxq; $i++) { 
+                    $q = mysqli_query($connect,"SELECT * FROM `$n` WHERE `qid` = '$i'");
+                    $row = mysqli_fetch_assoc($q);
+                    if($r == 3) {
+                        $r=0;
+                    }
+                    $key = array_rand($class);
+                    //fa-check-square-o
+                    ?>
+                   
+                    <div class="question-div card box_shadow_min mb_30 ng-scope  <?echo $class[$r];?>" id="<?=$row['id']?> ">
+                        <div class="card_head text-center">
+                            <p>Never Have I Ever</p>
+                        </div>
+                        <div class="input-group card_body">
+                        <span class="edit_icon"><i   class="fa fa-pencil-square-o fa-3x " aria-hidden="true" id="ic<?=$row['id']?>"></i>
+                        </span>
+                                                <ul class="hlist cricle_row">
+                                <li id="myP" class="cricle_edit lieditable" ng-class="question.editing?'lieditable':''">
+                                    <textarea maxlength="56" spellcheck="false" rows="1" cols="60"  class="ng-pristine ng-valid">
+                                        <?=$row['question'];?>
+                                    </textarea>    
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                <?$r++;
+                }?>
+
+
+
+                </div>
+                
+                <div class="continue_btn_div  btn_sec p_5_per mb_30">
+                   
+                        <button ng-click="saveQuestionSelUserQuiz()" class="question_continue_btn">Continue</button>
+                   
+                </div>
+            </div>
+          
+        
+  
+</div>
+    <?}?>  
+<!-- End of everhaveI Quiz Type -->
 
 </div>
 

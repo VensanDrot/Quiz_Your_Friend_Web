@@ -75,3 +75,41 @@
                 result--;
                 console.log(result);
             }
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="main_sec middle_conatainer ">
+                                       
+                  
+                  <? for($i=1; $i <= $maxq; $i++) { 
+                    $q = mysqli_query($connect,"SELECT * FROM `$n` WHERE `qid` = '$i'");
+                    $row = mysqli_fetch_assoc($q);
+                    ?>
+                    <div class="question-div card box_shadow_min mb_30 ng-scope bg_blue_tran" >
+                        <div class="card_head text-center">
+                            <p>Never Have I Ever</p>
+                        </div>
+                        <div class="input-group card_body">
+                        <span class="edit_icon" id='<?=$row['id']?>'>
+                            <i id="quesId" class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                        </span>
+                            <ul class="hlist cricle_row">
+                                <li id="myP" class="cricle_edit" >
+                                    <textarea maxlength="56" spellcheck="false" rows="1" cols="60"  class="ng-pristine ng-valid" readonly="readonly">
+                                        <?=$row['question'];?>
+                                    </textarea>    
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <?}?>
+        </div>
