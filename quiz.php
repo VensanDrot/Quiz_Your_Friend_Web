@@ -813,7 +813,9 @@
 
 <!-- Start of everhaveI Quiz Type -->
     <?if($type == '2') {?>
-
+        <head>
+        <link href="public/css/never.css" rel="stylesheet" type="text/css" />
+        </head>
         <div class="main_sec middle_conatainer">
         
           <div class="middle_area middle_conatainer ng-scope" id="quizDiv" ng-controller="QuizController" ng-init="showAllQuestion(10,1);enableSaveOptionText(0);">
