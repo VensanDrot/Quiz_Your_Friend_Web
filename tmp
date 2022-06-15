@@ -113,3 +113,17 @@
                     </div>
                     <?}?>
         </div>
+
+
+        for(i=1;i<=<?=$maxq;?>;i++){
+                    const smth = document.getElementsByName(i);
+                    if (smth.classList.contains('fa-check-square-o') == false) {
+                        console.log('hgehee');
+                        if( answer.get('Q'+i) == 0 ) {
+                        result=localStorage.getItem('result');
+                        result ++;
+                        localStorage.setItem('result', result);
+                    }
+                } 
+                }
+                result=localStorage.getItem('result');

@@ -92,7 +92,7 @@
                 f=0;
                 console.log("up");
                 document.cookie = "f="+f;
-                console.log("<? echo $_COOKIE["f"];?>");
+                //console.log("<? echo $_COOKIE["f"];?>");
                 }
             
             if (<?echo $qn?> == <?echo $maxq?> && <? echo $_COOKIE["f"];?>==0) {
@@ -115,7 +115,7 @@
                break;
             
              }
-             console.log("<? echo $_COOKIE["f"];?>");
+             //console.log("<? echo $_COOKIE["f"];?>");
 
         }
 
@@ -484,6 +484,168 @@
 // End of every thing for usual type
 
 // Start of every thing for everhaveI type 
+    if (empty($_GET['Answer']) && $type == '2'){?>
+        <script>
+            if(localStorage.getItem('<?echo $n;?>') !== null){
+            window.location.href='finish.php?Qid=<?=$n;?>';
+            }
+            var g = 1;
+            // map creating
+            var map = new Map([
+            ["Quiz_Id", "<? echo $n ?>"],
+            ["User_ID", "<? echo $_COOKIE['UserId'];?>"],
+            ]);
+           
+            for (i=1;i<=<?=$maxq;?>;i++){
+            map.set("Q"+i, '0' );
+            var fss = JSON.stringify(Array.from(map.entries()));
+            localStorage.setItem('Newmap', fss);
+            }
+            map = new Map(JSON.parse(localStorage.Newmap));
+            //console.log(map);
+        
+
+
+            function hsave(id){
+            const t = document.getElementById(id);
+            const di = document.getElementById('ic'+id);   
+            name = t.getAttribute('name');
+            if(di.classList.contains('fa-check-square-o') == false){ 
+                di.classList.add('fa-check-square-o');
+                map.set("Q"+name, id );
+                var fss = JSON.stringify(Array.from(map.entries()));
+                localStorage.setItem('Newmap', fss);
+            }
+            else {
+                di.classList.remove('fa-check-square-o');
+                map.set("Q"+name, 0 );
+                var fss = JSON.stringify(Array.from(map.entries()));
+                localStorage.setItem('Newmap', fss);
+            }
+            
+            
+            map = new Map(JSON.parse(localStorage.Newmap));
+            console.log(map);
+            
+            }
+
+
+            function fin(){
+                
+                localStorage.setItem("<?echo $n;?>", "<?echo $_COOKIE['UserId'];?>");
+                window.location.href='finish.php?Qid=<?=$n;?>';
+            }
+        </script>
+   <?}
+
+    if (!empty($_GET['Answer']) && $type == '2'){?> 
+        <script>
+            answer = new Map(JSON.parse(localStorage.NewAnswer));  
+            if(localStorage.getItem('F<?echo $n;?>') === answer.get('User_ID')){
+                //console.log('ass');
+                window.location.href='friend.php?S=true&Qid=<?echo $n;?>&User_Id='+answer.get('User_ID')+"&Fid="+answer.get('FriendId');
+                //window.localStorage.removeItem('r');
+                window.localStorage.removeItem('Answered');
+                window.localStorage.removeItem('NewAnswer');
+                document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+                //document.cookie = 'r=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+                window.localStorage.removeItem('result');
+            }
+        result = 0;
+        if (localStorage.getItem('result') === null) {
+                localStorage.setItem('result', result);
+        }
+        
+        for(i=1;i<answer.size-2;i++) {
+            if (answer.get('Q'+i) == 0) {
+                result=localStorage.getItem('result');
+                        result ++;
+                        localStorage.setItem('result', result);
+            }
+        }
+        console.log(localStorage.getItem('result'));
+        
+        
+
+        function hsave(id){
+                
+                answer = new Map(JSON.parse(localStorage.NewAnswer)); 
+                const t = document.getElementById(id);
+                const di = document.getElementById('ic'+id);   
+                name = t.getAttribute('name');
+                if(di.classList.contains('fa-check-square-o') == false){ 
+                    di.classList.add('fa-check-square-o');
+                    if (answer.get('Q'+name) == id) {
+                        result=localStorage.getItem('result');
+                        result ++;
+                        localStorage.setItem('result', result);
+                    }
+                    if (answer.get('Q'+name) == 0) {
+                        result=localStorage.getItem('result');
+                        result --;
+                        localStorage.setItem('result', result);
+                    }
+
+                }
+                else {
+                    di.classList.remove('fa-check-square-o');
+                    if (answer.get('Q'+name) == 0) {
+                        result=localStorage.getItem('result');
+                        result ++;
+                        localStorage.setItem('result', result);
+                    }
+                    if (answer.get('Q'+name) == id) {
+                        result=localStorage.getItem('result');
+                        result --;
+                        localStorage.setItem('result', result);
+                    }
+                }
+                
+
+               console.log(localStorage.getItem('result'));
+                //map = new Map(JSON.parse(localStorage.Newmap));
+                //console.log(map);
+               
+            }
+
+            function fin(){
+                answer = new Map(JSON.parse(localStorage.NewAnswer)); 
+                document.cookie = 'FriendId='+answer.get('FriendId');
+                document.cookie = 'User_Id='+answer.get('User_ID');
+                document.cookie = 'result='+ localStorage.getItem('result');
+                localStorage.setItem('F<?=$n;?>', answer.get('User_ID'));
+                document.cookie = 'upload='+'smth';
+                location.reload();
+            
+            }
+
+
+            
+                
+
+        </script>
+          <?
+                       $fid = $_COOKIE['FriendId'];
+                       $uid = $_COOKIE['User_Id'];
+                       $result =  $_COOKIE['result'];
+
+                       //echo "<script>console.log($fid)</script>";
+                       //echo "<script>console.log($uid)</script>";
+                       //echo "<script>console.log($result)</script>";
+                        if ($_COOKIE['upload']=='smth' ) {
+                          $insert = mysqli_query($connect,"INSERT INTO `results`( `userid`, `Qid`, `fid`, `result`) VALUES ('$uid','$n','$fid','$result')");
+                            echo "<script> 
+                                answer = new Map(JSON.parse(localStorage.NewAnswer));  
+                                window.location.href='friend.php?S=true&Qid=$n&User_Id='+answer.get('User_ID')+'&Fid='+answer.get('FriendId'); 
+                                window.localStorage.removeItem('Answered');
+                                window.localStorage.removeItem('NewAnswer');
+                                window.localStorage.removeItem('r');
+                                window.localStorage.removeItem('result');
+                                document.cookie = 'upload=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+                                </script>";
+                        }
+            ?>
+    <?}
 
 // End of every thing for everhaveI type
 
@@ -674,7 +836,7 @@
                     //fa-check-square-o
                     ?>
                    
-                    <div class="question-div card box_shadow_min mb_30 ng-scope  <?echo $class[$r];?>" id="<?=$row['id']?> ">
+                    <div class="question-div card box_shadow_min mb_30 ng-scope  <?echo $class[$r];?>" id="<?=$row['id']?>" name ="<?=$row['qid']?>" onclick="hsave(this.id)">
                         <div class="card_head text-center">
                             <p>Never Have I Ever</p>
                         </div>
@@ -700,7 +862,7 @@
                 
                 <div class="continue_btn_div  btn_sec p_5_per mb_30">
                    
-                        <button ng-click="saveQuestionSelUserQuiz()" class="question_continue_btn">Continue</button>
+                        <button onclick="fin()" class="question_continue_btn">Continue</button>
                    
                 </div>
             </div>
