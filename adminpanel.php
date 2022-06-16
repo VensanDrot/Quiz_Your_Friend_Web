@@ -553,11 +553,11 @@ function toggle(aid,val) {
             <li><p>All quizes</p></li>
 
               <? 
-              $q = $q = mysqli_query($connect,"SELECT MAX(id) FROM `quizes`");
+              $q = $q = mysqli_query($connect,"SELECT MAX(id) FROM `Quizes`");
               $max_quiz_id = mysqli_fetch_assoc($q);
               $max_quiz_id = $max_quiz_id['MAX(id)'];
               for ($i=1; $i <=$max_quiz_id ; $i++) { 
-               $q = mysqli_query($connect,"SELECT * FROM `quizes` WHERE `id` = $i");
+               $q = mysqli_query($connect,"SELECT * FROM `Quizes` WHERE `id` = $i");
                $r = mysqli_fetch_assoc($q);
               if(!empty($r['QName'])) {
                   $checkbox = $r['status']; 
