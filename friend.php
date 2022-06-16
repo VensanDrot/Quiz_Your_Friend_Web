@@ -38,7 +38,7 @@ $name= $row['name'];
    <h1> Who know's <?=$name;?> the best?</h1>
    <div class="tabskr ng-scope" ng-if="arrOtherUserStat.length==0">
           <?
-           $q = mysqli_query($connect,"SELECT MAX(id) FROM `Results` WHERE `userid` = '$user' AND `Qid`='$qid'");
+           $q = mysqli_query($connect,"SELECT MAX(id) FROM `results` WHERE `userid` = '$user' AND `Qid`='$qid'");
            $r = mysqli_fetch_assoc($q);
            $mid = $r['MAX(id)'];?>                 
                                                 <!--------------------------------->

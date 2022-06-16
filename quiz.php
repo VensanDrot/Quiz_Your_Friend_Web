@@ -847,7 +847,7 @@
                         </span>
                                                 <ul class="hlist cricle_row">
                                 <li id="myP" class="cricle_edit lieditable" ng-class="question.editing?'lieditable':''">
-                                    <textarea maxlength="56" spellcheck="false" rows="1" cols="60"  class="ng-pristine ng-valid">
+                                    <textarea maxlength="56" spellcheck="false" rows="1" cols="60"  class="ng-pristine ng-valid" readonly>
                                         <?=$row['question'];?>
                                     </textarea>    
                                 </li>

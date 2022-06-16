@@ -1,5 +1,8 @@
 <?require_once("header.php");
 $Qid= $_GET['Qid'];
+$q = mysqli_query($connect,"SELECT MAX(qid) FROM `$Qid`");
+$maaaa = mysqli_fetch_assoc($q);
+$maaaa = $maaaa['MAX(qid)'];
 ?>
 
 <script>
@@ -65,10 +68,10 @@ else if(!empty($_COOKIE['code']) && !empty($_COOKIE['Link']) && $_COOKIE['Set'] 
 <div class="container" >    
         <?
         $us = $_COOKIE['UserId'];
-         $q = mysqli_query($connect,"SELECT MAX(id) FROM `Results` WHERE `userid` = '$us' AND `Qid`='$Qid'");
+         $q = mysqli_query($connect,"SELECT MAX(id) FROM `results` WHERE `userid` = '$us' AND `Qid`='$Qid'");
          $r = mysqli_fetch_assoc($q);
          $mid = $r['MAX(id)'];
-         echo "<script>console.log('$mid')</script>";
+        // echo "<script>console.log('$mid')</script>";
         ?>
         <div class="tabskr ng-scope" ng-if="arrOtherUserStat.length==0">
                             <!--------------------------------->
@@ -82,10 +85,10 @@ else if(!empty($_COOKIE['code']) && !empty($_COOKIE['Link']) && $_COOKIE['Set'] 
                             </li>
                             <?if(!empty($mid)) {
                                 for($i=1; $i<=$mid;$i++){
-                                    $q = mysqli_query($connect,"SELECT * FROM `Results` WHERE `userid` = '$us' AND `id` = '$i' AND `Qid`='$Qid'");
+                                    $q = mysqli_query($connect,"SELECT * FROM `results` WHERE `userid` = '$us' AND `id` = '$i' AND `Qid`='$Qid'");
                                      $r = mysqli_fetch_assoc($q);
                                      $m = $r['fid'];
-                                     echo "<script>console.log('$mid')</script>";
+                                    // echo "<script>console.log('$mid')</script>";
                                      $q1 = mysqli_query($connect,"SELECT `name` FROM `users` WHERE `id` = '$m'");
                                      $r1 = mysqli_fetch_assoc($q1);
                                      
@@ -101,23 +104,39 @@ else if(!empty($_COOKIE['code']) && !empty($_COOKIE['Link']) && $_COOKIE['Set'] 
                    </div>
         </div>
 
+      
 
 
        <div class="enter_quiz reddy">    
     <!-- <br/>  -->
                    <h1 class="redeed">Your Quiz is Ready!</h1>
                    <p>Share your quiz-link with your friends!</p>
-                       <p>They will try to guess your answers &amp; get a score out of 10.</p>
-                   <div class="link_share" id="linkDiv">
-                   <script>
-            document.write(localStorage.getItem('Link<?=$_GET['Qid'];?>'));
-            </script>
+                       <p>They will try to guess your answers &amp; get a score out of <?=$maaaa;?>.</p>
+                   <div class="link_share" id="linkDiv" >
+                   
                    </div>
-            <div class="link-copied">Link Copied</div>
+            <div class="link-copied" >Link Copied</div>
            <div class="clearfix"></div>
-           <button class="btn btn-default cop_textred" id="copy-link">Copy Link</button>
+           <button class="btn btn-default cop_textred" id="copy-link" onclick="copy()">Copy Link</button>
 
-                                   
+           <script>
+            const el = document.getElementById('linkDiv');
+            //console.log(el);
+            el.innerHTML= localStorage.getItem('Link<?=$_GET['Qid'];?>')
+           // document.write();
+
+           function copy(text) {
+            let inputelement=document.createElement('input');
+            inputelement.type="text";
+            let copyText = document.getElementById('linkDiv').innerHTML;
+            inputelement.value= copyText;
+            document.body.appendChild(inputelement);
+            inputelement.select();
+            document.execCommand('copy');
+            document.body.removeChild(inputelement);
+
+    }
+            </script>            
            
            </div>
            
@@ -140,8 +159,10 @@ else if(!empty($_COOKIE['code']) && !empty($_COOKIE['Link']) && $_COOKIE['Set'] 
     </div>
 
     <script>
+  
     document.cookie = 'Link=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
     document.cookie = 'Set=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
     document.cookie = 'code=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-    </script>
+    
+   </script>
 <?require_once("footer.php");?>
