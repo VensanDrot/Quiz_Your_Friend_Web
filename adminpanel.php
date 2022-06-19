@@ -144,7 +144,7 @@
            
             
             
-          
+            // bug fixed here the radio type value=0 is empty for php
             if (!empty($last_img) && !empty($last_name) && !empty($last_nques) && !empty($last_quiz_name) && (!empty($radio) || $radio == '0')){
                 $insert = mysqli_query($connect,"INSERT INTO `Quizes`(`QName`,`name`, `img`, `questions`, `status`,`type`) VALUES ('$last_quiz_name','$last_name','$last_img','$last_nques','$checkbox','$radio')");
                 $q =  mysqli_query($connect,"SELECT MAX(id) FROM `Quizes`");
