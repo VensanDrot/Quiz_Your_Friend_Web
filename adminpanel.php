@@ -529,7 +529,7 @@ function toggle(aid,val) {
             <?=(isset($error_quiz_name))?"<p style='color:red; font-size:23px;'>$error_quiz_name</p>":""; ?>
             <input class="form-control" required="" placeholder="Enter the Quiz authentication name" maxlength="25" name="quiz_name" type="text" value="<?=$last_quiz_name?>" style="margin-bottom: 1rem;">
             <?=(isset($error_nques))?"<p style='color:red; font-size:23px;'>$error_nques</p>":""; ?>
-            <input class="form-control"  placeholder="Number of questions" maxlength="25" name="nquestion" id="nquestion" type="number" value="<?=$last_nques?>" style="margin-bottom: 1rem;"min="1"; max="15">
+            <input class="form-control"  placeholder="Number of questions" maxlength="25" name="nquestion" id="nquestion" type="number" value="<?=$last_nques?>" style="margin-bottom: 1rem;" min="1"; >
             <div >
                 <input type="radio" id="type" name="type" value="0">
                 <label for="javascript" style="margin-right:10px;">Usual Quiz</label>

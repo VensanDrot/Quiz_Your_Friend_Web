@@ -8,6 +8,7 @@
         $newurl = $r['url'];
         echo "
      <script>
+     document.cookie = 'f=0';
      window.location.href='$newurl';
         </script>";
     }
