@@ -11,7 +11,12 @@
      window.location.href='$newurl';
         </script>";
     }
+?>
 
+<script type="text/javascript">
+    document.cookie = "f=0";
+</script>
+<?
 // Start Register of the creator of the quiz // 
 
     if (empty($_GET['Answer']) && empty($_GET['Code'])){
