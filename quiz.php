@@ -367,7 +367,8 @@
        
             // pars to local storage
            
-        answer = new Map(JSON.parse(localStorage.NewAnswer));  
+        answer = new Map(JSON.parse(localStorage.NewAnswer)); 
+        document.cookie= 'findname='+answer.get('User_ID'); 
         if(localStorage.getItem('F<?echo $n;?>') === answer.get('User_ID')){
             //console.log('ass');
             window.location.href='friend.php?S=true&Qid=<?echo $n;?>&User_Id='+answer.get('User_ID')+"&Fid="+answer.get('FriendId');
@@ -541,6 +542,7 @@
     if (!empty($_GET['Answer']) && $type == '2'){?> 
         <script>
             answer = new Map(JSON.parse(localStorage.NewAnswer));  
+            document.cookie= 'findname='+answer.get('User_ID');
             if(localStorage.getItem('F<?echo $n;?>') === answer.get('User_ID')){
                 //console.log('ass');
                 window.location.href='friend.php?S=true&Qid=<?echo $n;?>&User_Id='+answer.get('User_ID')+"&Fid="+answer.get('FriendId');
@@ -657,10 +659,22 @@
 <div class="container  <?if($type == 2) {echo "main_container";}?>" >
 
 <!-- Start of Usual Quiz Type -->  
-    <?if($type == '0') {?>
+    <?if($type == '0') {
+        $ANSWER = $_GET['Answer'];
+        $findname= $_COOKIE['findname'];
+        $q = mysqli_query($connect,"SELECT `name` FROM `users` WHERE `id`='$findname'");
+        $found =mysqli_fetch_assoc($q);
+        $found = $found['name'];
+        ?>
 
      	<div class="quiz_block">
-     	<h1 class="ng-binding"><?echo $que;?></h1>
+     	<h1 class="ng-binding" style="<?if($ANSWER==True) {echo 'display:none';}?>"><?echo $que;?></h1>
+         <h1 class="ng-binding" style="<?if($ANSWER==True) {echo 'display:block';}else {echo 'display:none';}?>">
+         <?
+         $healthy = array("you", "u");
+         $found = $found."'s";
+         echo str_replace($healthy,$found, $que);
+         ?></h1>
      	<button onclick="move()" class="btn btn-default quizzzzz" >Change question</button>
      </div>
      	 <div class="quiz_container">
@@ -731,10 +745,17 @@
     
 
 <!-- Start of This||That Quiz Type -->
-    <?if($type == '1') {?>
+    <?if($type == '1') {
+        $ANSWER = $_GET['Answer'];
+        $findname= $_COOKIE['findname'];
+        $q = mysqli_query($connect,"SELECT `name` FROM `users` WHERE `id`='$findname'");
+        $found =mysqli_fetch_assoc($q);
+        $found = $found['name'];
+        ?>
         <div class="middle_area menu_sec ques_page ng-scope" id="quizDiv" ng-controller="QuizController" ng-init="showAllQuestion(0,0);enableOnePageOptionSelection(1);enableMaxScore();enableUseMeta();">
             <div class="top_heading inst_head">
-                <h2 class="text-center"> This or That game!</h2>
+                <h2 class="text-center" style="<?if($ANSWER==True) {echo 'display:none';}?>"> This or That game!</h2>
+                <h2 class="text-center" style="<?if($ANSWER==True) {echo 'display:block';} else {echo 'display:none';}?>"> Guess <span style="font-weight:bold; "><?=$found;?>'s</span> This Or That answers</h2>
             </div>
             <?
             for($i=1; $i <= $maxq; $i++) {
@@ -812,7 +833,13 @@
 <!-- End of This||That Quiz Type -->
 
 <!-- Start of everhaveI Quiz Type -->
-    <?if($type == '2') {?>
+    <?if($type == '2') {
+         $ANSWER = $_GET['Answer'];
+         $findname= $_COOKIE['findname'];
+         $q = mysqli_query($connect,"SELECT `name` FROM `users` WHERE `id`='$findname'");
+         $found =mysqli_fetch_assoc($q);
+         $found = $found['name'];
+         ?>
         <head>
         <link href="public/css/never.css" rel="stylesheet" type="text/css" />
         </head>
@@ -820,7 +847,8 @@
         
           <div class="middle_area middle_conatainer ng-scope" id="quizDiv" ng-controller="QuizController" ng-init="showAllQuestion(10,1);enableSaveOptionText(0);">
                 <div class="top_heading">
-                  <h2>Personalised Edition</h2>
+                  <h2 style="<?if($ANSWER==True) {echo 'display:none';}?>">Personalised Edition</h2>
+                  <h2 class="text-center" style="<?if($ANSWER==True) {echo 'display:block';} else {echo 'display:none';}?>"> Guess <span style="font-weight:bold; "><?=$found;?>'s</span> Never Have I Ever answers</h2>
                 </div>
             
 
