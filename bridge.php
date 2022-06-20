@@ -9,7 +9,7 @@
         echo "
      <script>
      document.cookie = 'f=0';
-     localStorage.removeItem('Answered');
+    
      window.location.href='$newurl';
      
         </script>";

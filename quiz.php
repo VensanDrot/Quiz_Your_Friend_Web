@@ -4,7 +4,7 @@
 
     $n= $_GET['Qid'];
     $qn= $_GET['Qn'];
-    
+    $findname= $_COOKIE['findname'];
     $n= $_GET['Qid'];
     $id = $int = (int) filter_var($n, FILTER_SANITIZE_NUMBER_INT);
     //echo $id;
@@ -663,7 +663,8 @@
 <!-- Start of Usual Quiz Type -->  
     <?if($type == '0') {
         $ANSWER = $_GET['Answer'];
-        $findname= $_COOKIE['findname'];
+    
+    
         $q = mysqli_query($connect,"SELECT `name` FROM `users` WHERE `id`='$findname'");
         $found =mysqli_fetch_assoc($q);
         $found = $found['name'];
@@ -748,7 +749,7 @@
 <!-- Start of This||That Quiz Type -->
     <?if($type == '1') {
         $ANSWER = $_GET['Answer'];
-        $findname= $_COOKIE['findname'];
+        
         $q = mysqli_query($connect,"SELECT `name` FROM `users` WHERE `id`='$findname'");
         $found =mysqli_fetch_assoc($q);
         $found = $found['name'];
@@ -836,7 +837,7 @@
 <!-- Start of everhaveI Quiz Type -->
     <?if($type == '2') {
          $ANSWER = $_GET['Answer'];
-         $findname= $_COOKIE['findname'];
+         
          $q = mysqli_query($connect,"SELECT `name` FROM `users` WHERE `id`='$findname'");
          $found =mysqli_fetch_assoc($q);
          $found = $found['name'];
