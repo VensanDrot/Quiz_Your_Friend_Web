@@ -270,7 +270,10 @@
 
  <script type="text/javascript" src="public/js/jquery.min.js"></script>
  <script type="text/javascript" src="public/js/site.js"></script>
- 
+ <script>
+     answer = new Map(JSON.parse(localStorage.NewAnswer)); 
+    document.cookie= 'findname='+answer.get('User_ID'); 
+ </script>
 
 
 
