@@ -304,7 +304,7 @@
           if(!empty($last_answern) && !empty($question_id) && $sttt == 0) {
               $QID=$_GET['Qid'];
               $Q=$_GET['Q'];
-              $insert = mysqli_query($connect, "INSERT INTO `Q$QID`(`qid`, `answer`, `status`, `img`) VALUES ('$Q','$answern','$sttt','$last_img')");
+              $insert = mysqli_query($connect, "INSERT INTO `Q$QID`(`qid`, `answer`) VALUES ('$Q','$last_answern')");
               $temp=$_GET['Question'];
           }
           if(!empty($last_answern) && !empty($question_id) && !empty($last_img)) {
