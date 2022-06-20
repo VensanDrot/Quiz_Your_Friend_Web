@@ -68,7 +68,7 @@ $name= $row['name'];
                                 }?>
                         </ul>    
                    </div>
-
+   </div>
 
 </div>
 
