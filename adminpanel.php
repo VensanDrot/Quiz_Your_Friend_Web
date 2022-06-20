@@ -162,6 +162,54 @@
                     
                 }  
             }
+
+
+        if (isset($_POST['Edit_Quiz'])){
+                $edqid = $_GET['Qid'];
+                $name = trim(htmlspecialchars(strip_tags($_POST["Name"])));
+                $nques = trim(htmlspecialchars(strip_tags($_POST["nquestion"])));
+               
+
+                // Allow certain file formats 
+                $allowTypes = array('jpg','png','jpeg'); 
+                if(!empty($_FILES["image"]["name"])) { 
+                    // File info 
+                    $fileName = basename($_FILES["image"]["name"]); 
+                    $imageUploadPath = $uploadPath . $fileName; 
+                    $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION); 
+    
+                    // Allow certain file formats 
+                    $allowTypes = array('jpg','png','jpeg'); 
+                    if(in_array($fileType, $allowTypes)){ 
+                        // Image temp source 
+                        $imageTemp = $_FILES["image"]["tmp_name"]; 
+    
+                        // Compress size and upload image 
+                        $compressedImage = compressImage($imageTemp, $imageUploadPath, 75); 
+    
+                        if($compressedImage){ 
+                            $status = 'success'; 
+                            $last_img = $imageUploadPath;
+                        }else{ 
+                            $statusMsg1 = "Image compress failed!"; 
+                        } 
+                    }else{ 
+                        $statusMsg1 = 'Sorry, only JPG, JPEG, PNG, & GIF files are allowed to upload.'; 
+                    } 
+                    }else{ 
+                    $statusMsg1 = 'Please select an image file to upload.'; 
+                }    
+
+
+                if (!empty($name) && empty($last_img)){
+                    $update = mysqli_query($connect,"UPDATE `Quizes` SET `name`='$name' WHERE `id`='$edqid'");
+                }
+                if (!empty($name) && !empty($last_img)){
+                    $update = mysqli_query($connect,"UPDATE `Quizes` SET `name`='$name', `img`='$last_img' WHERE `id`='$edqid'");
+                }
+    } 
+        
+
            
          
     //  End New Quiz Creation start   
@@ -432,6 +480,20 @@
      ?>  
     window.location.href='adminpanel.php?Part=Admin';
  }
+
+    function quizdelte(id) {
+    document.cookie = "removequiz="+id;
+    <?
+         $remquiz = $_COOKIE['removequiz'];
+         if(!empty($remquiz)) {
+         $delete = mysqli_query($connect, "DELETE FROM `Quizes` WHERE `id` = '$remquiz'"); 
+         $delete = mysqli_query($connect,"DROP TABLE `Q$remquiz`");        
+        }
+     ?>  
+     window.location.href='adminpanel.php?Part=Quiz';
+ }
+
+
 //End
 
 function toggle(aid,val) {
@@ -567,6 +629,10 @@ function toggle(aid,val) {
            <button class="erase" id='<?=$r['id'];?>' onclick="location.href='adminpanel.php?Part=QuizEdit&Qid=<?=$r['id']?>&Question=<?=$r['questions']?>&Q=1'" >
            <i style="font-size:15px; margin:0;" class="fa-solid fa-pen-to-square"></i>
             </button>
+            <button class="erase" id='<?=$r['id'];?>' onclick="quizdelte(this.id)" >
+            delete
+           <i style="font-size:15px; margin:0;" class="fa-solid fa-delete-left"></i>
+            </button>
            <p style="margin:0;"><?=$r['QName'];?></p>
            <div style="display: flex; align-items:baseline; justify-content:center; align-items:center;"> 
            
@@ -622,10 +688,15 @@ function toggle(aid,val) {
                 <!-- sample of li
  	 			<li><a href="">10</a></li>
  	 		-->
+
+              <li  id ="Q<?echo $i;?>">
+                        <a href="adminpanel.php?Part=QuizEdit&Qid=<?echo $_GET['Qid'];?>&Question=<?echo $_GET['Question'];?>&Q=<?echo $i;?>&Qedit=$Qedit">
+                        Q
+              </a></li>
             </ul>
  	 	 </div>
         </div>
-        <? if ($type == 0) {?>
+        <? if ($type == 0 && empty($_GET['Qedit'])) {?>
             <div class=""> 
                  <ul class="questionNoList">
              <?
@@ -726,8 +797,32 @@ function toggle(aid,val) {
                 <?
                 }
         }
+
+        if (!empty($_GET['Qedit'])) {
+            $edqid = $_GET['Qid'];
+            $q = mysqli_query($connect,"SELECT * FROM `Quizes` WHERE `id`= '$edqid'");
+            $info = mysqli_fetch_assoc($q);
+            ?>
+
+            <div class="">
+ 	        <h1 class="ng-binding">Edit Quiz</h1>
+            <form method="POST" style="margin:1rem 0;" enctype="multipart/form-data">
+            <?=(isset($error_name))?"<p style='color:red; font-size:23px;'>$error_name</p>":""; ?>
+            <input class="form-control" required="" placeholder="Enter the label on the quiz" name="Name" id="Name" type="text" value="<?=$info['name']?>" style="margin-bottom: 1rem;">
+                   
+            <? if(isset($statusMsg2)) {echo "<p style='color:red; font-size:23px;'>$statusMsg2</p>";} ?>
+            <input class="form-control" type="file" name="image" style="margin-bottom: 1rem;">
+            <div class="checkbox_cont"> 
+             <input class="btn btn-lg btn-success btn-block" type="submit" name="Edit_Quiz" value="Create new quiz">
+            </form>
+            </div>
+        <?
+        }
+
+
+
        
-        if ($type == 2) {
+        if ($type == 2 && empty($_GET['Qedit'])) {
          ?>
          <div class=""> 
               <ul class="questionNoList">
@@ -758,7 +853,7 @@ function toggle(aid,val) {
          </div>
         <? }
     
-        if ($type == 1) {
+        if ($type == 1 && empty($_GET['Qedit'])) {
             $maxlimit=0;
             $q = mysqli_query($connect,"SELECT MIN(id) FROM `Q$Quiz_id` WHERE `qid`= $Q");
             $min = mysqli_fetch_assoc($q);
