@@ -4,7 +4,7 @@
 
     $n= $_GET['Qid'];
     $qn= $_GET['Qn'];
-
+    
     $n= $_GET['Qid'];
     $id = $int = (int) filter_var($n, FILTER_SANITIZE_NUMBER_INT);
     //echo $id;
@@ -131,7 +131,8 @@
 
         <script type="text/javascript">
         answer = new Map(JSON.parse(localStorage.NewAnswer)); 
-        document.cookie= 'findname='+answer.get('User_ID'); 
+        //document.cookie= 'findname='+answer.get('User_ID'); 
+        
         if(localStorage.getItem('F<?echo $n;?>') == answer.get('User_ID')){
             ans = new Map(JSON.parse(localStorage.NewAnswer));
             window.location.href='friend.php?S=true&Qid=<?echo $n;?>&User_Id='+ans.get('User_ID')+"&Fid="+ans.get('FriendId');
@@ -673,7 +674,6 @@
          <h1 class="ng-binding" style="<?if($ANSWER==True) {echo 'display:block';}else {echo 'display:none';}?>">
          <?
          $healthy = array("you","You");
-         $found = $found."'s";
          echo str_replace($healthy,$found, $que);
          ?></h1>
      	<button onclick="move()" class="btn btn-default quizzzzz" >Change question</button>
