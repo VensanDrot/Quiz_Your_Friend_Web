@@ -531,9 +531,9 @@ function toggle(aid,val) {
              <?=(isset($error_used))?"<p style='color:red; font-size:23px;'>$error_used</p>":""; ?>
             <form method="POST" style="margin:1rem 0;">
             <?=(isset($error_login))?"<p style='color:red; font-size:23px;'>$error_login</p>":""; ?>
-            <input class="form-control" required="" placeholder="Enter login" maxlength="25" name="login" id="login" type="text" value="<?=$last_login?>" style="margin-bottom: 1rem;">
+            <input class="form-control" required="" placeholder="Enter login"  name="login" id="login" type="text" value="<?=$last_login?>" style="margin-bottom: 1rem;">
             <?=(isset($error_password))?"<p style='color:red; font-size:23px;'>$error_password</p>":""; ?>
-            <input class="form-control"  placeholder="Enter password" maxlength="25" name="pass" id="pass" type="password" value=""  style="margin-bottom: 1rem;">
+            <input class="form-control"  placeholder="Enter password" name="pass" id="pass" type="password" value=""  style="margin-bottom: 1rem;">
             <input class="btn btn-lg btn-success btn-block" type="submit" name="Reg" value="Register">
             </form>
             
@@ -587,11 +587,11 @@ function toggle(aid,val) {
  	        <h1 class="ng-binding">Add New Quiz</h1>
             <form method="POST" style="margin:1rem 0;" enctype="multipart/form-data">
             <?=(isset($error_name))?"<p style='color:red; font-size:23px;'>$error_name</p>":""; ?>
-            <input class="form-control" required="" placeholder="Enter the label on the quiz" maxlength="25" name="Name" id="Name" type="text" value="<?=$last_name?>" style="margin-bottom: 1rem;">
+            <input class="form-control" required="" placeholder="Enter the label on the quiz"  name="Name" id="Name" type="text" value="<?=$last_name?>" style="margin-bottom: 1rem;">
             <?=(isset($error_quiz_name))?"<p style='color:red; font-size:23px;'>$error_quiz_name</p>":""; ?>
-            <input class="form-control" required="" placeholder="Enter the Quiz authentication name" maxlength="25" name="quiz_name" type="text" value="<?=$last_quiz_name?>" style="margin-bottom: 1rem;">
+            <input class="form-control" required="" placeholder="Enter the Quiz authentication name"  name="quiz_name" type="text" value="<?=$last_quiz_name?>" style="margin-bottom: 1rem;">
             <?=(isset($error_nques))?"<p style='color:red; font-size:23px;'>$error_nques</p>":""; ?>
-            <input class="form-control"  placeholder="Number of questions" maxlength="25" name="nquestion" id="nquestion" type="number" value="<?=$last_nques?>" style="margin-bottom: 1rem;" min="1"; >
+            <input class="form-control"  placeholder="Number of questions"  name="nquestion" id="nquestion" type="number" value="<?=$last_nques?>" style="margin-bottom: 1rem;" min="1"; >
             <div >
                 <input type="radio" id="type" name="type" value="0">
                 <label for="javascript" style="margin-right:10px;">Usual Quiz</label>
@@ -925,9 +925,9 @@ function toggle(aid,val) {
             <h1 class="ng-binding">Change Your Password</h1>
             <form method="POST" style="margin:1rem 0;">
             <?=(isset($error_password))?"<p style='color:red; font-size:23px;'>$error_password</p>":""; ?>
-            <input class="form-control"  placeholder="Enter password" maxlength="25" name="pass" id="pass" type="password" value=""  style="margin-bottom: 1rem;">
+            <input class="form-control"  placeholder="Enter password"  name="pass" id="pass" type="password" value=""  style="margin-bottom: 1rem;">
             <?=(isset($error_password1))?"<p style='color:red; font-size:23px;'>$error_password1</p>":""; ?>
-            <input class="form-control"  placeholder="Enter password again" maxlength="25" name="pass1" id="pass" type="password" value=""  style="margin-bottom: 1rem;">
+            <input class="form-control"  placeholder="Enter password again"  name="pass1" id="pass" type="password" value=""  style="margin-bottom: 1rem;">
             <input class="btn btn-lg btn-success btn-block" type="submit" name="Change" value="Change password">
             </form>
             </div>
