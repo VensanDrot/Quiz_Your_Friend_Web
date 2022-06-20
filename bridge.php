@@ -9,12 +9,15 @@
         echo "
      <script>
      document.cookie = 'f=0';
+     localStorage.removeItem('Answered');
      window.location.href='$newurl';
+     
         </script>";
     }
 ?>
 
 <script type="text/javascript">
+    
     document.cookie = "f=0";
 </script>
 <?
@@ -74,7 +77,9 @@
 
         echo "
         <script>
-
+	
+	
+	
         if (localStorage.getItem('FriendId') !== null ) {
            document.cookie = 'FriendId='+localStorage.getItem('FriendId');
 
@@ -116,13 +121,16 @@
               <script>
                   answer = new Map(JSON.parse(localStorage.NewAnswer));
                   answer.set('Q<?=$i;?>', '<?=$temp;?>');
-                  console.log('hehe');
+                  //console.log('hehe');
                   var fss = JSON.stringify(Array.from(answer.entries()));
                   localStorage.setItem('NewAnswer', fss);
               </script>    
             <? }
 
-            echo"<script>window.location.href='quiz.php?Qid=$Qid&Qn=1&Answer=True';  </script>";
+            echo"<script>
+            
+    		
+            window.location.href='quiz.php?Qid=$Qid&Qn=1&Answer=True';  </script>";
             
                   }/**/
     }
@@ -166,7 +174,8 @@
           
         echo "
         <script>
-
+	answer = new Map(JSON.parse(localStorage.NewAnswer)); 
+    	document.cookie= 'findname='+answer.get('User_ID');
         if (localStorage.getItem('FriendId') !== null ) {
            document.cookie = 'FriendId='+localStorage.getItem('FriendId');
            window.location.href='quiz.php?Qid=$Qid&Qn=1&Answer=True';
@@ -271,6 +280,7 @@
  <script type="text/javascript" src="public/js/jquery.min.js"></script>
  <script type="text/javascript" src="public/js/site.js"></script>
  <script>
+     answer = new Map(JSON.parse(localStorage.NewAnswer)); 
     document.cookie= 'findname='+answer.get('User_ID'); 
  </script>
 
