@@ -129,6 +129,8 @@
 
             echo"<script>
             
+            answer = new Map(JSON.parse(localStorage.NewAnswer)); 
+            document.cookie= 'findname='+answer.get('User_ID'); 
     		
             window.location.href='quiz.php?Qid=$Qid&Qn=1&Answer=True';  </script>";
             

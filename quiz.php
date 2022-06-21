@@ -873,7 +873,7 @@
                             <p>Never Have I Ever</p>
                         </div>
                         <div class="input-group card_body">
-                        <span class="edit_icon"><i   class="fa fa-pencil-square-o fa-3x " aria-hidden="true" id="ic<?=$row['id']?>"></i>
+                        <span class="edit_icon"><i   class="fa fa-solid fa-x fa-3x"></i> fa-3x " aria-hidden="true" id="ic<?=$row['id']?>"></i>
                         </span>
                                                 <ul class="hlist cricle_row">
                                 <li id="myP" class="cricle_edit lieditable" ng-class="question.editing?'lieditable':''">
